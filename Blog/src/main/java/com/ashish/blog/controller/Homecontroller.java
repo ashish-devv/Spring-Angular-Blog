@@ -24,10 +24,10 @@ public class Homecontroller {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
-	@GetMapping("/user/home")
+	@GetMapping("/")
 	public String home()
 	{
-		return "home";
+		return "home-blog";
 	}
 	
 	@GetMapping("/signin")
