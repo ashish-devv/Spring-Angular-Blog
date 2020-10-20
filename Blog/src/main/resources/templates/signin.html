@@ -35,7 +35,7 @@
       <div th:if="${param.logout}" class="alert alert-success">
       You have been logged out
       </div>
-                  <form th:action="@{/signin}" method="POST">
+                  <form th:action="@{/signin}" method="POST" autocomplete="off">
                     <div class="form-label-group">
                       <input
                         type="email"

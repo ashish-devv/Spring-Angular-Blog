@@ -50,7 +50,7 @@ public class Homecontroller {
 			
 			if(!agree)
 			{
-				System.out.println("Please Agree to Terms and Condition!");
+				//System.out.println("Please Agree to Terms and Condition!");
 				throw new Exception("Please Agree to Terms and Condition!!");
 			}
 			user.setRole("ROLE_USER");
