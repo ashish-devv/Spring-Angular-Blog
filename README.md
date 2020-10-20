@@ -3,7 +3,6 @@
 [![Ashish](https://img.shields.io/badge/Maintained%20By-%20Ashish-brightgreen)](https://github.com/ashish-devv/Spring-Angular-Blog)
 
 ## Contributor List
-<hr>
 
 <a href="https://github.com/ashish-devv/Spring-Angular-Blog/graphs/contributors">
   <img src="https://contributors-img.web.app/image?repo=ashish-devv/Spring-Angular-Blog" />
