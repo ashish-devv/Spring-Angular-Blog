@@ -2,22 +2,35 @@ package com.ashish.blog.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import com.ashish.blog.dao.Userrepo;
+import com.ashish.blog.entity.User;
 
 @Controller
 @RequestMapping("/user")
 public class UserContoller {
 
+	@Autowired
+	Userrepo userrepo;
+	
 	@RequestMapping("/")
-	@ResponseBody
 	public String userhome(Authentication authentication,HttpSession httpSession)
 	{
-		String user = authentication.getName();
+		String email = authentication.getName();
+		User user= this.userrepo.getUserByusername(email);
 		//making the session for user after login
-		httpSession.setAttribute("userid",user);
-		return "Welcome !"+user+" <br><a href='/logout'>logout</a>";
+		httpSession.setAttribute("uid",user.getUid());
+		httpSession.setAttribute("name",user.getName());
+		httpSession.setAttribute("email",user.getEmail());
+		return "user-home";
+	}
+	
+	@RequestMapping("/post")
+	public String postpage()
+	{
+		return "user-post";
 	}
 }
