@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+<head>
+	<meta charset="UTF-8" />
+	<title></title>
+</head>
+<body>
+	<section>
+	<div class="container-fluid">
+      <div class="row">
+        <!-- Post Content Column -->
+        <div class="col-lg-1">
+          <div class="mt-5">
+            <div class="card mb-5 border border-0 bg-primary">
+              <div class="card-body border border-0 text-center">👍</div>
+            </div>
+            <div class="card mb-5 border border-0 bg-primary">
+              <div class="card-body border border-0 text-center">💪</div>
+            </div>
+            <div class="card mb-5 border border-0 bg-primary text-white">
+              <div class="card-body border border-0 text-center">More</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <div class="card p-4 m-1">
+            <!-- Title -->
+            <h1 class="mt-4">The Danger of Comparing Yourself to Others</h1>
+
+            <!-- Author -->
+            <p class="lead">
+              by
+              <a href="#">Ashish</a>
+            </p>
+
+            <hr />
+
+            <!-- Date/Time -->
+            <p>Posted on September 27, 2020 at 3:00 PM</p>
+
+            <hr />
+
+            <!-- Preview Image -->
+            <img
+              class="img-fluid rounded"
+              src="https://source.unsplash.com/random/900x300"
+              alt=""
+            />
+
+            <hr />
+
+            <!-- Post Content -->
+            <p class="lead">
+              “The big question about how people behave,” says Warren Buffett,
+              “is whether they’ve got an inner scorecard or an outer scorecard.
+              It helps if you can be satisfied with an inner scorecard.” To make
+              his point, Buffett often asks a simple question: Would you rather
+              be the world’s greatest lover, but have everyone think you’re the
+              world’s worst lover? Or would you rather be the world’s worst
+              lover but have everyone think you’re the world’s greatest lover?
+            </p>
+
+            <p>
+              Comparing ourselves to others allows them to drive our behavior.
+              This type of comparison is between you and someone else. Sometimes
+              it’s about something genetic, like wishing to be taller, but more
+              often it’s about something the other person is capable of doing
+              that we wish we could do as well. Maybe Sally writes better
+              reports than you, and maybe Bob has a happier relationship with
+              his spouse than you do. Sometimes this comparison is motivating
+              and sometimes it’s destructive.
+            </p>
+
+            <p>
+              You can be anything but you can’t be everything. When we compare
+              ourselves to others, we’re often comparing their best features
+              against our average ones. It’s like being right-handed and trying
+              to play an instrument with your left hand. Not only do we
+              naturally want to be better than them, the unconscious realization
+              that we are not often becomes self-destructive.
+            </p>
+
+            <blockquote class="blockquote">
+              <p class="mb-0">
+                There is one thing that you’re better at than other people:
+                being you. This is the only game you can really win.
+              </p>
+              <footer class="blockquote-footer">
+                Someone famous in
+                <cite title="Source Title">Ashish</cite>
+              </footer>
+            </blockquote>
+
+            <p>
+              When you stop comparing between people and focus internally, you
+              start being better at what really matters: being you. It’s simple
+              but not easy.
+            </p>
+
+            <p>
+              The most important things in life are measured internally.
+              Thinking about what matters to you is hard. Playing to someone
+              else’s scoreboard is easy, that’s why a lot of people do it. But
+              winning the wrong game is pointless and empty. You get one life.
+              Play your own game.
+            </p>
+
+            <hr />
+
+            <!-- Comments Form -->
+            <div class="card my-4">
+              <h5 class="card-header">Leave a Comment:</h5>
+              <div class="card-body">
+                <form>
+                  <div class="form-group">
+                    <textarea
+                      class="form-control"
+                      rows="3"
+                      required
+                      maxlength="300"
+                      placeholder="Share Your Thoughts Here ☁"
+                    ></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Single Comment -->
+            <div class="card">
+              <div class="card-header">Comments !✏</div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <div class="media mb-4">
+                    <img
+                      class="d-flex mr-3 rounded-circle"
+                      src="https://source.unsplash.com/random/50x50"
+                      alt=""
+                    />
+                    <div class="media-body">
+                      <h5 class="mt-0">Ashsih</h5>
+                      Hey Guys Show some Love !
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="media mb-4">
+                    <img
+                      class="d-flex mr-3 rounded-circle"
+                      src="https://source.unsplash.com/random/50x50"
+                      alt=""
+                    />
+                    <div class="media-body">
+                      <h5 class="mt-0">Nil</h5>
+                      cool !
+                    </div>
+                  </div>
+                </li>
+
+                <li class="list-group-item">
+                  <div class="media mb-4">
+                    <img
+                      class="d-flex mr-3 rounded-circle"
+                      src="https://source.unsplash.com/random/50x50"
+                      alt=""
+                    />
+                    <div class="media-body">
+                      <h5 class="mt-0">Badal</h5>
+                      Awesome!
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar Widgets Column -->
+        <div class="col-md-4">
+          <!-- Search Widget -->
+          <div class="card my-4">
+            <h5 class="card-header">Search</h5>
+            <div class="card-body">
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Search for..."
+                />
+                <span class="input-group-append">
+                  <button class="btn btn-secondary" type="button">Go!</button>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Categories Widget -->
+          <div class="card my-4">
+            <h5 class="card-header">Categories</h5>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <ul class="list-unstyled mb-0">
+                    <li>
+                      <a href="#">Web Design</a>
+                    </li>
+                    <li>
+                      <a href="#">HTML</a>
+                    </li>
+                    <li>
+                      <a href="#">Freebies</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-lg-6">
+                  <ul class="list-unstyled mb-0">
+                    <li>
+                      <a href="#">JavaScript</a>
+                    </li>
+                    <li>
+                      <a href="#">CSS</a>
+                    </li>
+                    <li>
+                      <a href="#">Tutorials</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Side Widget -->
+          <div class="card my-4">
+            <h5 class="card-header">Side Widget</h5>
+            <div class="card-body">
+              You can put anything you want inside of these side widgets. They
+              are easy to use, and feature the new Bootstrap 4 card containers!
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container -->
+	</section>
+	
+</body>
+</html>

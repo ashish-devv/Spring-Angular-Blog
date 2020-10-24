@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+<head>
+	<meta charset="UTF-8" />
+	<title></title>
+</head>
+<body>
+	<section>
+	<script
+      src="https://cdn.tiny.cloud/1/z1vbaapblaam1kf3lf73pkdcrgyfu1hawk422u3d2e4i0eoa/tinymce/5/tinymce.min.js"
+      referrerpolicy="origin"
+    ></script>
+	<div class="container-fluid">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="container">
+            <h1 class="m-2">
+              Posts 📫
+              <span
+                ><a href="/user/" class="btn btn-danger mx-3"
+                  >Back to Home</a
+                ></span
+              >
+            </h1>
+            <div class="card border border-dark">
+              <div class="card-body">
+              <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			  <p th:text="${session.message.content}"></p>
+			  <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+			</div>
+                <form th:action="@{/user/addpost}" method="POST" action="#" th:object="${post}" enctype="multipart/form-data">
+                  <div class="form-group">
+                    <input
+                    name="postHeading"
+                      type="text"
+                      class="form-control p-4 mx-2 border border-primary"
+                      id="postHeading"
+                      placeholder="Post Heading (Required) ✨"
+                      style="font-size: 20px"
+                      maxlength="250"
+                      required="required"
+                      th:value="${post.postHeading}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                    name="postTag"
+                      type="text"
+                      class="form-control p-4 mx-2 border border-primary"
+                      id="postTag"
+                      placeholder="#tags (Optional) #️⃣"
+                      style="font-size: 20px"
+                      maxlength="50"
+                      
+                    />
+                  </div>
+                  <div class="input-group mx-2">
+                    <div class="custom-file">
+                      <input
+                       name="postHeadImagefile"
+                        type="file"
+                        class="postHeadImage"
+                        id="inputGroupFile01"
+                        aria-describedby="inputGroupFileAddon01"
+                        accept="image/png,image/jpeg,image/jpg"
+                      />
+                      <label class="custom-file-label" for="inputGroupFile01"
+                        >Choose Head Image 🖼</label
+                      >
+                    </div>
+                  </div>
+                  <div class="form-group m-2">
+                    <label for="postdesc">Description</label>
+                    <textarea
+                    name="postDescription"
+                      class="form-control border border-primary"
+                      id="postdesc"
+                      rows="2"
+                      placeholder="Post Description"
+                      maxlength="500"
+                    ></textarea>
+                  </div>
+                  <div class="form-group m-2">
+                    <label for="postcontent">Content</label>
+                    <textarea
+                    name="postContent"
+                      class="form-control border border-success"
+                      id="postcontent"
+                      rows="8"
+                      placeholder="Your thoughts here.."
+                    ></textarea>
+                  </div>
+                  <button
+                    type="submit"
+                    class="btn btn-success m-2 btn-lg border border-dark"
+                    name="submit-value"
+                    value="post"
+                  >
+                    Post Your Thoughts...✈
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn btn-warning m-2 btn-lg border border-dark"
+                    name="submit-value"
+                    value="draft"
+                  >
+                    Save for Later.📁
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 nopadding">
+          <div class="container nopadding">
+            <div class="mt-5 nopadding">
+              <div class="card nopadding">
+                <img
+                  src="https://opendoodles.s3-us-west-1.amazonaws.com/levitate.png"
+                  alt="image"
+                  style="width: 50vh"
+                  nopadding
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      tinymce.init({
+        selector: "#postcontent",
+        plugins:
+          "a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable  tinymcespellchecker image wordcount ",
+        skin: "oxide-dark",
+        height: 400,
+        menubar: true,
+        branding: false,
+        draggable_modal: true,
+        elementpath: true,
+        resize: false,
+        toolbar: true,
+        statusbar: true,
+      });
+      tinymce.init({
+        selector: "#postdesc",
+        plugins:
+          "a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist  mediaembed pageembed powerpaste tinymcespellchecker  wordcount quickbars",
+        skin: "oxide-dark",
+        height: 100,
+        menubar: false,
+        branding: false,
+        draggable_modal: true,
+        elementpath: false,
+        resize: true,
+        toolbar: false,
+        statusbar: false,
+        quickbars_selection_toolbar:
+          "bold italic | formatselect | quicklink blockquote",
+        quickbars_insert_toolbar: false,
+      });
+    </script>
+	</section>
+	
+</body>
+</html>
