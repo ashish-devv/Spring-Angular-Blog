@@ -69,7 +69,7 @@
               <h5 class="card-header">Leave a Comment:</h5>
               <div class="card-body">
                 <form th:action="@{'/user/writecomment/'+${post.pid}}"
-                 method="POST" th:object="${comments}">
+                 method="POST" th:object="${comment}">
                   <div class="form-group">
                     <textarea
                       name="commentcontent"
@@ -78,7 +78,7 @@
                       required
                       maxlength="300"
                       placeholder="Share Your Thoughts Here ☁"
-                      th:value="${comments.commentcontent}"
+                      th:value="${comment.commentcontent}"
                     ></textarea>
                   </div>
                   <button type="submit" class="btn btn-primary">Submit</button>
@@ -88,48 +88,32 @@
 
             <!-- Single Comment -->
             <div class="card">
-              <div class="card-header">Comments !✏</div>
+              <div class="card-header text-center">Comments ☁ ✏</div>
               <ul class="list-group list-group-flush">
-                <li class="list-group-item">
+              <li class="list-group-item" th:if="${comm.empty}">
+              <p class="text-center">❌ No Comments ❌</p>
+              </li>
+                
+                
+                <li class="list-group-item" th:each="c : ${comm}">
                   <div class="media mb-4">
                     <img
                       class="d-flex mr-3 rounded-circle"
-                      src="https://source.unsplash.com/random/50x50"
+                      src="/img/default.jpg"
+                      height="50"
+                      width="50"
                       alt=""
                     />
                     <div class="media-body">
-                      <h5 class="mt-0">Ashsih</h5>
-                      Hey Guys Show some Love !
+                      <h5 class="mt-0" th:text="${c.name}"></h5>
+                      <span><strong>[[${c.commentcontent}]]</strong></span>
+                       -<small class="text-muted" th:text="${#dates.format(c.commenton, 'dd-MM-yyyy HH:mm')}"></small>
                     </div>
                   </div>
                 </li>
-                <li class="list-group-item">
-                  <div class="media mb-4">
-                    <img
-                      class="d-flex mr-3 rounded-circle"
-                      src="https://source.unsplash.com/random/50x50"
-                      alt=""
-                    />
-                    <div class="media-body">
-                      <h5 class="mt-0">Nil</h5>
-                      cool !
-                    </div>
-                  </div>
-                </li>
+                
 
-                <li class="list-group-item">
-                  <div class="media mb-4">
-                    <img
-                      class="d-flex mr-3 rounded-circle"
-                      src="https://source.unsplash.com/random/50x50"
-                      alt=""
-                    />
-                    <div class="media-body">
-                      <h5 class="mt-0">Badal</h5>
-                      Awesome!
-                    </div>
-                  </div>
-                </li>
+    
               </ul>
             </div>
           </div>

@@ -1,6 +1,7 @@
 package com.ashish.blog.entity;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,7 +32,7 @@ public class Comments {
 	
 	@Column(nullable = false,updatable=false)
 	@CreationTimestamp
-	private LocalDateTime commenton;
+	private Date commenton;
 
 	public int getCid() {
 		return cid;
@@ -73,11 +74,12 @@ public class Comments {
 		this.commentcontent = commentcontent;
 	}
 
-	public LocalDateTime getCommenton() {
+
+	public Date getCommenton() {
 		return commenton;
 	}
 
-	public void setCommenton(LocalDateTime commenton) {
+	public void setCommenton(Date commenton) {
 		this.commenton = commenton;
 	}
 
@@ -87,7 +89,7 @@ public class Comments {
 				+ commentcontent + ", commenton=" + commenton + "]";
 	}
 
-	public Comments(int cid, int uid, String name, int pid, String commentcontent, LocalDateTime commenton) {
+	public Comments(int cid, int uid, String name, int pid, String commentcontent, Date commenton) {
 		super();
 		this.cid = cid;
 		this.uid = uid;

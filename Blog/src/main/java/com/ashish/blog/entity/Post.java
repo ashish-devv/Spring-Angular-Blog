@@ -1,6 +1,7 @@
 package com.ashish.blog.entity;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,7 +43,7 @@ public class Post {
 	
 	@Column(nullable = false,updatable=false)
 	@CreationTimestamp
-	private LocalDateTime postedon;
+	private Date postedon;
 
 	
 	
@@ -118,11 +119,13 @@ public class Post {
 		this.postStatus = postStatus;
 	}
 
-	public LocalDateTime getPostedon() {
+	
+
+	public Date getPostedon() {
 		return postedon;
 	}
 
-	public void setPostedon(LocalDateTime postedon) {
+	public void setPostedon(Date postedon) {
 		this.postedon = postedon;
 	}
 
@@ -132,7 +135,7 @@ public class Post {
 	}
 
 	public Post(int pid, int id, String authorName, String postHeading, String postTag, String postHeadImage,
-			String postDescription, String postContent, boolean postStatus, LocalDateTime postedon) {
+			String postDescription, String postContent, boolean postStatus, Date postedon) {
 		super();
 		this.pid = pid;
 		this.id = id;

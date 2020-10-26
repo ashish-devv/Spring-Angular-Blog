@@ -17,4 +17,7 @@ public interface Postrepo extends JpaRepository<Post, Integer>{
 	
 	@Query("select p from Post p where p.pid= :pid")
 	public Post findByPid(@Param("pid") int pid);
+	
+	@Query("select count(p) from Post p where p.id= :id")
+	public int findNoofPostByid(@Param("id") int id);
 }

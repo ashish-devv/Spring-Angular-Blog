@@ -10,7 +10,7 @@
       <div class="card">
         <div class="text-center bg-dark">
           <img
-            src="https://instagram.fpat2-1.fna.fbcdn.net/v/t51.2885-15/e35/70770849_2423692161237945_1353497240572938774_n.jpg?_nc_ht=instagram.fpat2-1.fna.fbcdn.net&_nc_cat=109&_nc_ohc=BbFAGW-tLtMAX-G6ypB&_nc_tp=18&oh=3e18c7fa80cca54779463a3dfa8eb080&oe=5F962142"
+            th:src="@{${udetail.profilepic}}"
             alt="profile_pic"
             class="rounded-circle text-center m-3"
             style="height: 20vh; width: 20vh"
@@ -27,36 +27,36 @@
           </div>
         </div>
 
-        <p class="card-title text-center mt-2 h3">Ashish</p>
-        <div class="card-title text-center mt-1">
-          An Computer Science Graduate .
+        <p class="card-title text-center mt-2 h3" th:text="${udetail.name}"></p>
+        <div class="card-title text-center mt-1" th:text="${udetail.aboutme}">
+          
         </div>
         <div class="card-body text-center">
           <ul class="list-inline">
             <li class="list-inline-item">
               <i class="fa fa-birthday-cake mx-1" aria-hidden="true"></i>Joined
-              on Sep 2, 2020
+              on <span th:text="${#dates.format(udetail.joinedon, 'dd-MM-yyyy HH:mm')}"></span>
             </li>
             <li class="list-inline-item">
               <i class="fa fa-map-marker mx-1" aria-hidden="true"></i> India
             </li>
-            <li class="list-inline-item">
-              <a href="http://" target="_blank"
+            <li class="list-inline-item" th:if="${udetail.twitterid != null}">
+              <a th:href="@{http://twitter.com/{id}(id=${udetail.twitterid})}" target="_blank"
                 ><i class="fa fa-twitter" aria-hidden="true"></i
               ></a>
             </li>
-            <li class="list-inline-item">
+            <li class="list-inline-item" th:if="${udetail.fbid != null}">
               <a href="http://" target="_blank">
                 <i class="fa fa-facebook-square" aria-hidden="true"></i
               ></a>
             </li>
-            <li class="list-inline-item">
+            <li class="list-inline-item" th:if="${udetail.instaid != null}">
               <a href="http://" target="_blank">
                 <i class="fa fa-instagram" aria-hidden="true"></i
               ></a>
             </li>
-            <li class="list-inline-item">
-              <a href="http://" target="_blank">
+            <li class="list-inline-item" th:if="${udetail.githubid != null}">
+              <a href="https://github.com/{id}(${udetail.githubid})" target="_blank">
                 <i class="fa fa-github" aria-hidden="true"></i
               ></a>
             </li>
@@ -65,8 +65,9 @@
 
         <div class="card text-center p-2">
           Studies at<br />
-          Centuirion University,Paralakhemundi
-        </div>
+          Centurion University,<span th:if="${udetail.collegename == 'CUTM,PKD'}" th:text="Paralakhemundi"></span>
+          <span th:if="${udetail.collegename == 'CUTM,BBSR'}" th:text="Bhubaneswar"></span>
+          <span th:if="${udetail.collegename == 'CUTM,VIZAG'}" th:text="Vizag"></span>
       </div>
     </div>
     <div class="container-fluid mt-4">
@@ -75,54 +76,36 @@
           <div class="card">
             <div class="card">
               <ul class="list-inline my-1">
-                <li class="list-item">25 Posts Published</li>
-                <li class="list-item">11 Comments Written</li>
-                <li class="list-item">10 Tags Followed</li>
+                <li class="list-item"><span th:text="${noofpost}"></span> Posts Published</li>
+                <li class="list-item"><span th:text="${noofcomment}"></span> Comments Written</li>
+                <li class="list-item"><b>*</b> people Followed</li>
               </ul>
             </div>
           </div>
         </div>
         <div class="col-md-7">
-          <div class="card mb-2 border border-dark">
-            <div class="card-body">
-              <h2 class="card-title">
-                Life becomes about being a better version of yourself.
-              </h2>
-              <hr />
-              <a href="../Post_overview/postover.html" class="btn btn-primary">
-                Read Post 📪</a
-              >
-            </div>
-            <div class="card-footer text-muted">
-              Posted on January 1, 2020 by
-              <a href="#">Start Bootstrap</a>
-            </div>
-          </div>
-          <div class="card">
+        <!-- Post starts From Here  -->
+          <div class="card" th:each="post: ${listofPost}" th:unless="${listofPost.empty}">
             <div class="card mb-2 border border-dark">
               <img
+              th:if="${post.postHeadImage != null}"
                 class="card-img-top"
-                src="##https://source.unsplash.com/random/750x300"
+                th:src="@{|/img/${post.postHeadImage}|}"
                 alt="Card image cap"
                 style="height: 300px"
               />
               <div class="card-body">
-                <h2 class="card-title">
-                  The most important things in life are measured internally.
-                  Thinking about what matters to you is hard.
+                <h2 class="card-title" th:text="${post.postHeading}">
                 </h2>
-                <p class="card-text">
-                  Playing to someone else’s scoreboard is easy, that’s why a lot
-                  of people do it. But winning the wrong game is pointless and
-                  empty. You get one life. Play your own game.
+                <p class="card-text" th:utext="${post.postDescription}" th:unless="${post.postDescription.empty}">
                 </p>
-                <a href="../Post_overview/postover.html" class="btn btn-primary"
+                <a th:href="@{|/user/post/${post.pid}|}" class="btn btn-primary"
                   >Read Post 📪</a
                 >
               </div>
               <div class="card-footer text-muted">
-                Posted on January 1, 2020 by
-                <a href="#">Start Bootstrap</a>
+                Posted on <span th:text="${#dates.format(post.postedon, 'dd-MM-yyyy HH:mm')}"></span> by
+                <a th:href="@{|/user/user/${post.id}|}"><span th:text="${post.authorName}"></span></a>
               </div>
             </div>
           </div>

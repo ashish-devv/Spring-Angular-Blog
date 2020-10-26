@@ -1,5 +1,7 @@
 package com.ashish.blog.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,7 +99,7 @@ public class UserContoller {
 				if(status)
 				{
 					System.out.println(ServletUriComponentsBuilder.fromCurrentContextPath().path("/img/").path(postHeadImagefile.getOriginalFilename()).toUriString());
-					post.setPostHeadImage(ServletUriComponentsBuilder.fromCurrentContextPath().path("/img/").path(postHeadImagefile.getOriginalFilename()).toUriString());
+					post.setPostHeadImage("/img/"+postHeadImagefile.getOriginalFilename());
 				}
 				else
 				{
@@ -150,6 +152,7 @@ public class UserContoller {
 	public String postdetail(@PathVariable int pid,Model model)
 	{
 		Post post= this.postrepo.findByPid(pid);
+		List<Comments> comm=this.commentrepo.getAllCommentbyPostid(pid);
 		if(post==null)
 		{
 			return "error";
@@ -159,12 +162,13 @@ public class UserContoller {
 			return "403";
 		}
 		model.addAttribute("post",post);
-		model.addAttribute("comments", new Comments());
+		model.addAttribute("comm",comm);
+		model.addAttribute("comment", new Comments());
 		return "post";
 	}
 	
 	@PostMapping("/writecomment/{pid}")
-	public String writecomment(@PathVariable int pid,@ModelAttribute("comments") Comments comment,HttpSession httpSession,Model model)
+	public String writecomment(@PathVariable int pid,@ModelAttribute("comment") Comments comment,HttpSession httpSession,Model model)
 	{
 		try
 		{
@@ -190,6 +194,42 @@ public class UserContoller {
 			httpSession.setAttribute("message", new Messages("Something Went Wrong ❌!! ","alert-danger"));
 			return "redirect:/user/post/{pid}";
 		}
+	}
+	
+	@RequestMapping("/user/{uid}")
+	public String userprofile(@PathVariable("uid") int uid,Model model,HttpSession httpSession)
+	{
+		try {
+			if(httpSession.getAttribute("uid")==null)
+			{
+				return "redirect:/user/";
+			}
+			int loggeduserid=(int) httpSession.getAttribute("uid");
+			if(loggeduserid==uid)
+			{
+				return "redirect:/user/me";
+			}
+			User user=this.userrepo.getUserByUid(uid);
+			if(user==null)
+			{
+				return "error";
+			}
+			int noofpost=this.postrepo.findNoofPostByid(uid);
+			int noofcomment=this.commentrepo.noOfCommentbyUid(uid);
+			List<Post> listofPost = this.postrepo.FindAllPostByUserId(uid);
+			model.addAttribute("udetail", user);
+			model.addAttribute("noofpost", noofpost);
+			model.addAttribute("noofcomment", noofcomment);
+			model.addAttribute("listofPost", listofPost);
+			
+			
+			
+			return "user-info";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+		
 	}
 	
 }

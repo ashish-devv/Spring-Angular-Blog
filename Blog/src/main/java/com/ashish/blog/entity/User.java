@@ -1,6 +1,6 @@
 package com.ashish.blog.entity;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,14 +22,17 @@ public class User {
 	
 	@Column(nullable = false,updatable=false)
 	@CreationTimestamp
-	private LocalDateTime joinedon;
+	private Date joinedon;
 	
 	@Column(nullable = false)
 	private String collegename;
 	
 	private String place;
 	
-	@Column(nullable = false,columnDefinition = "default '/img/default.jpg'")
+	@Column(nullable = false)
+	private String aboutme;
+	
+	@Column(nullable = false)
 	private String profilepic;
 	
 	private String twitterid;
@@ -79,11 +82,13 @@ public class User {
 		this.name = name;
 	}
 
-	public LocalDateTime getJoinedon() {
+	
+
+	public Date getJoinedon() {
 		return joinedon;
 	}
 
-	public void setJoinedon(LocalDateTime joinedon) {
+	public void setJoinedon(Date joinedon) {
 		this.joinedon = joinedon;
 	}
 
@@ -182,24 +187,38 @@ public class User {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+	
+	
+
+	public String getAboutme() {
+		return aboutme;
+	}
+
+	public void setAboutme(String aboutme) {
+		this.aboutme = aboutme;
+	}
+
+	
 
 	@Override
 	public String toString() {
 		return "User [uid=" + uid + ", name=" + name + ", joinedon=" + joinedon + ", collegename=" + collegename
-				+ ", place=" + place + ", profilepic=" + profilepic + ", twitterid=" + twitterid + ", fbid=" + fbid
-				+ ", instaid=" + instaid + ", githubid=" + githubid + ", email=" + email + ", registration="
-				+ registration + ", password=" + password + ", role=" + role + ", enabled=" + enabled + "]";
+				+ ", place=" + place + ", aboutme=" + aboutme + ", profilepic=" + profilepic + ", twitterid="
+				+ twitterid + ", fbid=" + fbid + ", instaid=" + instaid + ", githubid=" + githubid + ", email=" + email
+				+ ", registration=" + registration + ", password=" + password + ", role=" + role + ", enabled="
+				+ enabled + "]";
 	}
 
-	public User(int uid, String name, LocalDateTime joinedon, String collegename, String place, String profilepic,
-			String twitterid, String fbid, String instaid, String githubid, String email, String registration,
-			String password, String role, boolean enabled) {
+	public User(int uid, String name, Date joinedon, String collegename, String place, String aboutme,
+			String profilepic, String twitterid, String fbid, String instaid, String githubid, String email,
+			String registration, String password, String role, boolean enabled) {
 		super();
 		this.uid = uid;
 		this.name = name;
 		this.joinedon = joinedon;
 		this.collegename = collegename;
 		this.place = place;
+		this.aboutme = aboutme;
 		this.profilepic = profilepic;
 		this.twitterid = twitterid;
 		this.fbid = fbid;
@@ -212,6 +231,7 @@ public class User {
 		this.enabled = enabled;
 	}
 
+	
 	
 	
 	

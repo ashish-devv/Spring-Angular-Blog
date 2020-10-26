@@ -63,8 +63,8 @@
               >
             </div>
             <div class="card-footer text-muted">
-              Posted on {{post.postedon}} by
-              <a href="/user/account/{{post.id}}">{{post.authorName}}</a>
+              Posted on {{post.postedon | date:'medium'}} by
+              <a href="/user/user/{{post.id}}">{{post.authorName}}</a>
             </div>
           </div>
 
