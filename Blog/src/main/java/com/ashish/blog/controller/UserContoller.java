@@ -7,14 +7,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.ashish.blog.dao.Commentrepo;
 import com.ashish.blog.dao.Postrepo;
 import com.ashish.blog.dao.Userrepo;
+import com.ashish.blog.entity.Comments;
 import com.ashish.blog.entity.Post;
 import com.ashish.blog.entity.User;
 import com.ashish.blog.helper.FileUploadHelper;
@@ -29,6 +32,9 @@ public class UserContoller {
 	
 	@Autowired
 	Postrepo postrepo;
+	
+	@Autowired
+	Commentrepo commentrepo;
 	
 	@Autowired
 	FileUploadHelper fileuploadhelper;
@@ -140,10 +146,50 @@ public class UserContoller {
 		return "user-info";
 	}
 	
-	@RequestMapping("/posts")
-	public String postdetail()
+	@RequestMapping("/post/{pid}")
+	public String postdetail(@PathVariable int pid,Model model)
 	{
+		Post post= this.postrepo.findByPid(pid);
+		if(post==null)
+		{
+			return "error";
+		}
+		if(post.isPostStatus()==false)
+		{
+			return "403";
+		}
+		model.addAttribute("post",post);
+		model.addAttribute("comments", new Comments());
 		return "post";
+	}
+	
+	@PostMapping("/writecomment/{pid}")
+	public String writecomment(@PathVariable int pid,@ModelAttribute("comments") Comments comment,HttpSession httpSession,Model model)
+	{
+		try
+		{
+			int id=(int)(httpSession.getAttribute("uid"));
+			String name=(String)(httpSession.getAttribute("name"));
+			if(name.equals("")||name.equals(null)||id==0)
+			{
+				throw new Exception("Please login and try again!!");
+			}
+			if(comment.getCommentcontent().equals("")||comment.getCommentcontent().equals(null))
+			{
+				throw new Exception("please Write the comment.");
+			}
+			comment.setUid(id);
+			comment.setName(name);
+			comment.setPid(pid);
+			this.commentrepo.save(comment);
+			httpSession.setAttribute("message", new Messages("Your Comment is Posted ✔!! ","alert-success"));
+			return "redirect:/user/post/{pid}";
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			httpSession.setAttribute("message", new Messages("Something Went Wrong ❌!! ","alert-danger"));
+			return "redirect:/user/post/{pid}";
+		}
 	}
 	
 }

@@ -6,119 +6,79 @@
 </head>
 <body>
 	<section>
+	<style>
+	img {
+    max-width: 100%;
+    height: auto;
+    }
+	</style>
 	<div class="container-fluid">
       <div class="row">
         <!-- Post Content Column -->
-        <div class="col-lg-1">
-          <div class="mt-5">
-            <div class="card mb-5 border border-0 bg-primary">
-              <div class="card-body border border-0 text-center">👍</div>
-            </div>
-            <div class="card mb-5 border border-0 bg-primary">
-              <div class="card-body border border-0 text-center">💪</div>
-            </div>
-            <div class="card mb-5 border border-0 bg-primary text-white">
-              <div class="card-body border border-0 text-center">More</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-7">
+        <div class="col-lg-9" >
+        
           <div class="card p-4 m-1">
             <!-- Title -->
-            <h1 class="mt-4">The Danger of Comparing Yourself to Others</h1>
+            <h1 class="mt-4" th:text="${post.postHeading}"></h1>
 
             <!-- Author -->
             <p class="lead">
               by
-              <a href="#">Ashish</a>
+              <a href="#" th:text="${post.authorName}"></a>
             </p>
 
             <hr />
 
             <!-- Date/Time -->
-            <p>Posted on September 27, 2020 at 3:00 PM</p>
+            <p th:if="${post.postedon}">Posted on [[${post.postedon}]]</p>
 
             <hr />
 
             <!-- Preview Image -->
             <img
               class="img-fluid rounded"
-              src="https://source.unsplash.com/random/900x300"
+              th:src="@{${post.postHeadImage}}"
               alt=""
             />
 
-            <hr />
+            
 
             <!-- Post Content -->
-            <p class="lead">
-              “The big question about how people behave,” says Warren Buffett,
-              “is whether they’ve got an inner scorecard or an outer scorecard.
-              It helps if you can be satisfied with an inner scorecard.” To make
-              his point, Buffett often asks a simple question: Would you rather
-              be the world’s greatest lover, but have everyone think you’re the
-              world’s worst lover? Or would you rather be the world’s worst
-              lover but have everyone think you’re the world’s greatest lover?
+            <p class="lead" th:remove="tag" th:utext="${post.postDescription}">
+              
             </p>
 
-            <p>
-              Comparing ourselves to others allows them to drive our behavior.
-              This type of comparison is between you and someone else. Sometimes
-              it’s about something genetic, like wishing to be taller, but more
-              often it’s about something the other person is capable of doing
-              that we wish we could do as well. Maybe Sally writes better
-              reports than you, and maybe Bob has a happier relationship with
-              his spouse than you do. Sometimes this comparison is motivating
-              and sometimes it’s destructive.
-            </p>
-
-            <p>
-              You can be anything but you can’t be everything. When we compare
-              ourselves to others, we’re often comparing their best features
-              against our average ones. It’s like being right-handed and trying
-              to play an instrument with your left hand. Not only do we
-              naturally want to be better than them, the unconscious realization
-              that we are not often becomes self-destructive.
-            </p>
-
-            <blockquote class="blockquote">
-              <p class="mb-0">
-                There is one thing that you’re better at than other people:
-                being you. This is the only game you can really win.
-              </p>
-              <footer class="blockquote-footer">
-                Someone famous in
-                <cite title="Source Title">Ashish</cite>
-              </footer>
-            </blockquote>
-
-            <p>
-              When you stop comparing between people and focus internally, you
-              start being better at what really matters: being you. It’s simple
-              but not easy.
-            </p>
-
-            <p>
-              The most important things in life are measured internally.
-              Thinking about what matters to you is hard. Playing to someone
-              else’s scoreboard is easy, that’s why a lot of people do it. But
-              winning the wrong game is pointless and empty. You get one life.
-              Play your own game.
+            <p th:utext="${post.postContent}">
+              
             </p>
 
             <hr />
-
+            <div>
+            <button class="btn btn-default btn-lg ml-4 btn-outline-dark"><i class="fa fa-thumbs-o-up fa-3" aria-hidden="true"></i></button>
+            <button class="btn btn-default btn-lg ml-4 btn-outline-dark"><i class="fa fa-share-alt-square fa-3" aria-hidden="true"></i></button>
+            <button class="btn btn-default btn-lg ml-4 btn-outline-dark"><i class="fa fa-ellipsis-v fa-3" aria-hidden="true"></i></button>
+            </div>
+            <hr />
+            <div class="container">
+			<div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			<p th:text="${session.message.content}"></p>
+			<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+			</div>
             <!-- Comments Form -->
             <div class="card my-4">
               <h5 class="card-header">Leave a Comment:</h5>
               <div class="card-body">
-                <form>
+                <form th:action="@{'/user/writecomment/'+${post.pid}}"
+                 method="POST" th:object="${comments}">
                   <div class="form-group">
                     <textarea
+                      name="commentcontent"
                       class="form-control"
                       rows="3"
                       required
                       maxlength="300"
                       placeholder="Share Your Thoughts Here ☁"
+                      th:value="${comments.commentcontent}"
                     ></textarea>
                   </div>
                   <button type="submit" class="btn btn-primary">Submit</button>
@@ -174,9 +134,10 @@
             </div>
           </div>
         </div>
+        </div>
 
         <!-- Sidebar Widgets Column -->
-        <div class="col-md-4">
+        <div class="col-md-3">
           <!-- Search Widget -->
           <div class="card my-4">
             <h5 class="card-header">Search</h5>
@@ -238,10 +199,11 @@
             </div>
           </div>
         </div>
-      </div>
+      
       <!-- /.row -->
     </div>
     <!-- /.container -->
+    </div>
 	</section>
 	
 </body>

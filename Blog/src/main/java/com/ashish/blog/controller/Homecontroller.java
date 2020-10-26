@@ -55,7 +55,7 @@ public class Homecontroller {
 			}
 			user.setRole("ROLE_USER");
 			user.setEnabled(true);
-			user.setProfilepic("default.png");
+			user.setProfilepic("/img/default.png");
 			String email=user.getRegistration();
 			email=email+"@cutm.ac.in";
 			user.setEmail(email);

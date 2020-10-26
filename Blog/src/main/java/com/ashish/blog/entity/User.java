@@ -29,6 +29,7 @@ public class User {
 	
 	private String place;
 	
+	@Column(nullable = false,columnDefinition = "default '/img/default.jpg'")
 	private String profilepic;
 	
 	private String twitterid;

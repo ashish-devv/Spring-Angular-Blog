@@ -31,7 +31,7 @@ public class UserApi {
 	public List<Post> getallpostbyloggeduser(HttpSession httpSession)
 	{
 		int id=(int)httpSession.getAttribute("uid");
-		List<Post> list=this.postrepo.FindAllByUserId(id);
+		List<Post> list=this.postrepo.FindAllPostByUserId(id);
 		
 		return list;
 	}
