@@ -18,3 +18,25 @@
 .card:hover {
   box-shadow: 5px 10px 20px 0 rgba(13, 69, 160, 0.678);
 }
+
+@media only screen and (max-width:600px)
+{
+	.sidebar
+	{
+	display:none;
+	width:80% !important;
+	background:white;
+	height:100vh;
+	position:fixed;
+	padding-top: 20px;
+	}
+	
+	.content
+	{
+	margin-left:0%!important;
+	}
+}
+
+
+
+

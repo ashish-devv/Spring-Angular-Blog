@@ -43,16 +43,25 @@
                     />
                   </div>
                   <div class="form-group">
-                    <input
+                    <!-- <input
                     name="postTag"
                       type="text"
-                      class="form-control p-4 mx-2 border border-primary"
+                      class="form-control "
                       id="postTag"
                       placeholder="#tags (Optional) #️⃣"
                       style="font-size: 20px"
                       maxlength="50"
                       
-                    />
+                    /> -->
+                    <label for="tag" class="mx-2">#️⃣ Select Tag</label>
+                    <select  id="tag"class="form-control p-4 mx-2 border border-primary" name="postTag" >
+                    <option value="" disabled selected >Choose Tags ..</option>
+                    
+                    <option th:each="tag:${tags}" th:value="${tag.tag_name}" th:text="${tag.tag_name}"></option>
+                    
+				      
+				      
+				    </select>
                   </div>
                   <div class="input-group mx-2">
                     <div class="custom-file">

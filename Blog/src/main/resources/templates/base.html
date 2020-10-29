@@ -42,7 +42,7 @@
       // place customizations here
     </script>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">💻Blog</a>
+      <a class="navbar-brand" href="/user/">💻Blog</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -93,16 +93,16 @@
                   <div class="col">
                     <div class="row text-center">
                       <img
-                  src="https://instagram.fpat2-1.fna.fbcdn.net/v/t51.2885-15/e35/70770849_2423692161237945_1353497240572938774_n.jpg?_nc_ht=instagram.fpat2-1.fna.fbcdn.net&_nc_cat=109&_nc_ohc=BbFAGW-tLtMAX-G6ypB&_nc_tp=18&oh=3e18c7fa80cca54779463a3dfa8eb080&oe=5F962142"
+                  th:src="@{${session.propic}}"
                   alt="profile_pic"
                   style="height: 8vh"
                   class="imagecircle mt-2 mb-2 rounded-circle"
                 />
                     </div>
                     <div class="row">
-                      [[${session.name}]]
+                      <span th:text="${session.name}+' '"></span>
                       <br />
-                      <small class="text-muted muted">View Your Account.</small>
+                      <span class="text-muted muted">View Your Account.</span>
                     </div>
                   </div>
                 </div>

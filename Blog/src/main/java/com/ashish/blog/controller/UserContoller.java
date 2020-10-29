@@ -18,9 +18,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.ashish.blog.dao.Commentrepo;
 import com.ashish.blog.dao.Postrepo;
+import com.ashish.blog.dao.Tagrepo;
 import com.ashish.blog.dao.Userrepo;
 import com.ashish.blog.entity.Comments;
 import com.ashish.blog.entity.Post;
+import com.ashish.blog.entity.Tag;
 import com.ashish.blog.entity.User;
 import com.ashish.blog.helper.FileUploadHelper;
 import com.ashish.blog.helper.Messages;
@@ -39,6 +41,9 @@ public class UserContoller {
 	Commentrepo commentrepo;
 	
 	@Autowired
+	Tagrepo tagrepo;
+	
+	@Autowired
 	FileUploadHelper fileuploadhelper;
 	
 	@RequestMapping("/")
@@ -50,12 +55,15 @@ public class UserContoller {
 		httpSession.setAttribute("uid",user.getUid());
 		httpSession.setAttribute("name",user.getName());
 		httpSession.setAttribute("email",user.getEmail());
+		httpSession.setAttribute("propic",user.getProfilepic());
 		return "user-home";
 	}
 	
 	@RequestMapping("/post")
 	public String postpage(Model model)
 	{
+		List<Tag> t=this.tagrepo.FindAllTag();
+		model.addAttribute("tags", t);
 		model.addAttribute("post", new Post());
 		return "user-post";
 	}
@@ -125,6 +133,9 @@ public class UserContoller {
 //			System.out.println(postHeadImagefile.getSize());
 //			System.out.println(postHeadImagefile.getContentType());
 			
+			List<Tag> t=this.tagrepo.FindAllTag();
+			model.addAttribute("tags", t);
+			System.out.println(t);
 			post.setId(id);
 			post.setAuthorName(name);
 			postrepo.save(post);
@@ -143,10 +154,76 @@ public class UserContoller {
 	
 	
 	@RequestMapping("/me")
-	public String aboutme()
+	public String aboutme(HttpSession httpSession,Model model)
 	{
-		return "user-info";
+		try {
+			if(httpSession.getAttribute("uid")!=null)
+			{
+				int id=(int) httpSession.getAttribute("uid");
+				User user=this.userrepo.getUserByUid(id);
+				if(user==null)
+				{
+					return "redirect:/user/";
+				}
+				int noofpost=this.postrepo.findNoofPostByid(id);
+				int noofcomment=this.commentrepo.noOfCommentbyUid(id);
+				List<Post> listofPost = this.postrepo.FindAllPostByUserId(id);
+				model.addAttribute("udetail", user);
+				model.addAttribute("noofpost", noofpost);
+				model.addAttribute("noofcomment", noofcomment);
+				model.addAttribute("listofPost", listofPost);
+				model.addAttribute("follow", false);
+			}
+			else {
+				return "redirect:/user/";
+			}
+			return "user-info";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "redirect:/user/";
+		}
+		
 	}
+	
+	
+	@RequestMapping("/user/{uid}")
+	public String userprofile(@PathVariable("uid") int uid,Model model,HttpSession httpSession)
+	{
+		try {
+			if(httpSession.getAttribute("uid")==null)
+			{
+				return "redirect:/user/";
+			}
+			int loggeduserid=(int) httpSession.getAttribute("uid");
+			if(loggeduserid==uid)
+			{
+				return "redirect:/user/me";
+			}
+			User user=this.userrepo.getUserByUid(uid);
+			if(user==null)
+			{
+				return "error";
+			}
+			int noofpost=this.postrepo.findNoofPostByid(uid);
+			int noofcomment=this.commentrepo.noOfCommentbyUid(uid);
+			List<Post> listofPost = this.postrepo.FindAllPostByUserId(uid);
+			model.addAttribute("udetail", user);
+			model.addAttribute("noofpost", noofpost);
+			model.addAttribute("noofcomment", noofcomment);
+			model.addAttribute("listofPost", listofPost);
+			model.addAttribute("follow", true);
+			
+			
+			
+			return "user-info";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+		
+	}
+	
+	
 	
 	@RequestMapping("/post/{pid}")
 	public String postdetail(@PathVariable int pid,Model model)
@@ -196,40 +273,30 @@ public class UserContoller {
 		}
 	}
 	
-	@RequestMapping("/user/{uid}")
-	public String userprofile(@PathVariable("uid") int uid,Model model,HttpSession httpSession)
+	@PostMapping("/addtag")
+	public String addtag(@ModelAttribute Tag tag,HttpSession httpSession)
 	{
 		try {
-			if(httpSession.getAttribute("uid")==null)
+			if(httpSession.getAttribute("uid") != null)
 			{
-				return "redirect:/user/";
+				int id=(int) httpSession.getAttribute("uid");
+				tag.setTag_by_uid(id);
+				Tag tagg=this.tagrepo.save(tag);
+				System.out.println(tagg);
 			}
-			int loggeduserid=(int) httpSession.getAttribute("uid");
-			if(loggeduserid==uid)
+			else
 			{
-				return "redirect:/user/me";
+				throw new Exception("First Login ...");
 			}
-			User user=this.userrepo.getUserByUid(uid);
-			if(user==null)
-			{
-				return "error";
-			}
-			int noofpost=this.postrepo.findNoofPostByid(uid);
-			int noofcomment=this.commentrepo.noOfCommentbyUid(uid);
-			List<Post> listofPost = this.postrepo.FindAllPostByUserId(uid);
-			model.addAttribute("udetail", user);
-			model.addAttribute("noofpost", noofpost);
-			model.addAttribute("noofcomment", noofcomment);
-			model.addAttribute("listofPost", listofPost);
-			
-			
-			
-			return "user-info";
+			return "redirect:/user/";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "error";
+			return "redirect:/user/";
+			// TODO: handle exception
 		}
 		
 	}
+	
+	
 	
 }

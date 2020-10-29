@@ -15,7 +15,7 @@
             class="rounded-circle text-center m-3"
             style="height: 20vh; width: 20vh"
           />
-          <div class="text-right mx-2">
+          <div class="text-right mx-2" th:if="${follow==true}">
             <ul class="list-inline">
               <li class="list-inline-item">
                 <button class="btn btn-primary">Follow</button>
@@ -25,6 +25,15 @@
               </li>
             </ul>
           </div>
+          <div class="text-right mx-2" th:if="${follow==false}">
+            <ul class="list-inline">
+              <li class="list-inline-item">
+                <button class="btn btn-success"><i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;Edit Profile</button>
+              </li>
+            </ul>
+          </div>
+          
+          
         </div>
 
         <p class="card-title text-center mt-2 h3" th:text="${udetail.name}"></p>
@@ -41,22 +50,22 @@
               <i class="fa fa-map-marker mx-1" aria-hidden="true"></i> India
             </li>
             <li class="list-inline-item" th:if="${udetail.twitterid != null}">
-              <a th:href="@{http://twitter.com/{id}(id=${udetail.twitterid})}" target="_blank"
+              <a th:href="@{|http://twitter.com/${udetail.twitterid}|}" target="_blank"
                 ><i class="fa fa-twitter" aria-hidden="true"></i
               ></a>
             </li>
             <li class="list-inline-item" th:if="${udetail.fbid != null}">
-              <a href="http://" target="_blank">
+              <a th:href="@{|https://www.facebook.com/${udetail.fbid}|}" target="_blank">
                 <i class="fa fa-facebook-square" aria-hidden="true"></i
               ></a>
             </li>
             <li class="list-inline-item" th:if="${udetail.instaid != null}">
-              <a href="http://" target="_blank">
+              <a th:href="@{|https://www.instagram.com/${udetail.instaid}|}" target="_blank">
                 <i class="fa fa-instagram" aria-hidden="true"></i
               ></a>
             </li>
             <li class="list-inline-item" th:if="${udetail.githubid != null}">
-              <a href="https://github.com/{id}(${udetail.githubid})" target="_blank">
+              <a th:href="@{|https://github.com/${udetail.githubid}|}" target="_blank">
                 <i class="fa fa-github" aria-hidden="true"></i
               ></a>
             </li>
@@ -90,9 +99,8 @@
               <img
               th:if="${post.postHeadImage != null}"
                 class="card-img-top"
-                th:src="@{|/img/${post.postHeadImage}|}"
+                th:src="@{${post.postHeadImage}}"
                 alt="Card image cap"
-                style="height: 300px"
               />
               <div class="card-body">
                 <h2 class="card-title" th:text="${post.postHeading}">

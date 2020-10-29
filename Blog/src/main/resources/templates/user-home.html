@@ -7,16 +7,17 @@
 <body>
 	<section>
 	<!-- Page Content -->
-    <div class="container-fluid">
+	<div>
+    <div class="container-fluid" >
       <div class="row">
         <!-- Profile Section -->
-        <div class="col-sm-2 nopadding">
+        <div class="col-sm-2 nopadding first">
           <!-- Search Widget -->
           <div class="m-0 rounded border border-dark">
             <div class="card">
               <span
                 ><img
-                  src="https://instagram.fpat2-1.fna.fbcdn.net/v/t51.2885-15/e35/70770849_2423692161237945_1353497240572938774_n.jpg?_nc_ht=instagram.fpat2-1.fna.fbcdn.net&_nc_cat=109&_nc_ohc=BbFAGW-tLtMAX-G6ypB&_nc_tp=18&oh=3e18c7fa80cca54779463a3dfa8eb080&oe=5F962142"
+                  th:src="@{${session.propic}}"
                   alt="profile_pic"
                   style="height: 8vh"
                   class="imagecircle mt-2 mb-2 rounded-circle"
@@ -37,7 +38,7 @@
             Posts 📫
             <small
               >Recent Posts
-              <a href="../Add_post/post.html" class="btn btn-success mx-5">
+              <a href="/user/post/" class="btn btn-success mx-5">
                 ➕Post
               </a></small
             >
@@ -105,6 +106,7 @@
             <h5 class="card-header bg-primary text-white border border-dark">
               #️⃣ Tags
             </h5>
+            
             <div class="card-body">
               <div class="row">
                 <div class="col-lg-6">
@@ -135,6 +137,25 @@
                 </div>
               </div>
             </div>
+            <hr />
+            <div>
+            <div >
+           <form th:action="@{/user/addtag}" method="POST">
+	            <div class="input-group mb-2 ">
+                <input
+                  type="text"
+                  class="form-control "
+                  placeholder="+Add Tag/Topic"
+                  name="tag_name"
+                />
+                <span class="input-group-append">
+                  <button class="btn btn-success border border-dark" type="submit">+Add</button>
+                </span>
+              </div>
+              </form>
+            </div>
+            
+            </div>
           </div>
 
           <!-- Side Widget -->
@@ -154,6 +175,7 @@
       <!-- /.row -->
     </div>
     <!-- /.container -->
+    </div>
 	</section>
 	
 </body>
