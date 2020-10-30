@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,13 +18,12 @@ public class FileUploadHelper {
 		
 	}
 	
-	public boolean  uploadfile(MultipartFile file)
+	public boolean  uploadfile(MultipartFile file,String nameOfFile)
 	{
 		boolean status=false;
 		
 		try {
-			
-			Files.copy(file.getInputStream(),Paths.get(UPLOAD_DIR+File.separator+file.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(file.getInputStream(),Paths.get(UPLOAD_DIR+File.separator+nameOfFile), StandardCopyOption.REPLACE_EXISTING);
 			status=true;
 			
 		} catch (Exception e) {

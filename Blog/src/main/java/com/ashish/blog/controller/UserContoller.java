@@ -1,5 +1,6 @@
 package com.ashish.blog.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -103,11 +105,14 @@ public class UserContoller {
 				post.setPostHeadImage(null);
 			}
 			else {
-				boolean status=fileuploadhelper.uploadfile(postHeadImagefile);
+				LocalDateTime now = LocalDateTime.now();
+				String Filename=now+StringUtils.cleanPath(postHeadImagefile.getOriginalFilename());
+				Filename=Filename.toLowerCase().replaceAll(":", "-");
+				boolean status=fileuploadhelper.uploadfile(postHeadImagefile,Filename);
 				if(status)
 				{
-					System.out.println(ServletUriComponentsBuilder.fromCurrentContextPath().path("/img/").path(postHeadImagefile.getOriginalFilename()).toUriString());
-					post.setPostHeadImage("/img/"+postHeadImagefile.getOriginalFilename());
+
+					post.setPostHeadImage("/img/"+Filename);
 				}
 				else
 				{
@@ -135,7 +140,7 @@ public class UserContoller {
 			
 			List<Tag> t=this.tagrepo.FindAllTag();
 			model.addAttribute("tags", t);
-			System.out.println(t);
+			
 			post.setId(id);
 			post.setAuthorName(name);
 			postrepo.save(post);
@@ -282,7 +287,7 @@ public class UserContoller {
 				int id=(int) httpSession.getAttribute("uid");
 				tag.setTag_by_uid(id);
 				Tag tagg=this.tagrepo.save(tag);
-				System.out.println(tagg);
+				
 			}
 			else
 			{
