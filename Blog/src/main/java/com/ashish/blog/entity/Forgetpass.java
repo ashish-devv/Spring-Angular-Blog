@@ -14,7 +14,7 @@ public class Forgetpass {
 	private int id; 
 	
 	@Column(nullable = false)
-	private String uniquekey;
+	private int uniquekey;
 	
 	@Column(nullable = false)
 	private String email;
@@ -27,11 +27,11 @@ public class Forgetpass {
 		this.id = id;
 	}
 
-	public String getUniquekey() {
+	public int getUniquekey() {
 		return uniquekey;
 	}
 
-	public void setUniquekey(String uniquekey) {
+	public void setUniquekey(int uniquekey) {
 		this.uniquekey = uniquekey;
 	}
 
@@ -48,7 +48,7 @@ public class Forgetpass {
 		return "Forgetpass [id=" + id + ", uniquekey=" + uniquekey + ", email=" + email + "]";
 	}
 
-	public Forgetpass(int id, String uniquekey, String email) {
+	public Forgetpass(int id, int uniquekey, String email) {
 		super();
 		this.id = id;
 		this.uniquekey = uniquekey;
