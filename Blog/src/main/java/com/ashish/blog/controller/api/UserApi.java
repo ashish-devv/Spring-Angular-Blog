@@ -1,6 +1,8 @@
 package com.ashish.blog.controller.api;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -58,20 +60,18 @@ public class UserApi {
 					newlike.setUserid(uid);
 					//System.out.println(newlike);
 					this.likerepo.save(newlike);
-					int count = this.likerepo.countBypid(pid);
-					return count+"<a class='btn btn-danger'href='/user/api/like/"+pid+"'>👎</a>";
+					return "done";
 				}
 				else
 				{
 					this.likerepo.deleteById(l.getLid());
-					int count = this.likerepo.countBypid(pid);
-					return count+"<a class='btn btn-success'href='/user/api/like/"+pid+"'>👍</a>";
+					return "done";
 				}
 				
 			}
 			else
 			{
-				throw new Exception("No Post by this {Pid} 👎");
+				throw new Exception("error");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -82,16 +82,30 @@ public class UserApi {
 	
 	
 	@GetMapping("/likecount/{pid}")
-	public String getlikecount(@PathVariable("pid") int pid)
+	public Map<String,Integer> getlikecount(@PathVariable("pid") int pid,HttpSession httpSession)
 	{
 		try {
+			int uid=(int) httpSession.getAttribute("uid");
 			int count=this.likerepo.countBypid(pid);
-			return ""+count;
+			HashMap<String, Integer> resp = new HashMap<>();
+			resp.put("count", count);
+			Like l=this.likerepo.getlikeinfobypostid(pid,uid);
+			if(l==null)
+			{
+				resp.put("likedornot",0);
+			}
+			else
+			{
+				resp.put("likedornot",1);
+			}
+			return resp;
 			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return e.getMessage();
+			HashMap<String, Integer> resp = new HashMap<>();
+			resp.put("error", 1);
+			return resp;
 		}
 	}
 
