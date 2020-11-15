@@ -12,10 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ashish.blog.dao.Followerrepo;
 import com.ashish.blog.dao.Likerepo;
 import com.ashish.blog.dao.Postrepo;
+import com.ashish.blog.dao.Userrepo;
+import com.ashish.blog.entity.Follower;
 import com.ashish.blog.entity.Like;
 import com.ashish.blog.entity.Post;
+import com.ashish.blog.entity.User;
 
 @RestController
 @RequestMapping("/user/api")
@@ -26,6 +30,12 @@ public class UserApi {
 	
 	@Autowired
 	Likerepo likerepo;
+	
+	@Autowired
+	Followerrepo  followerrepo;
+	
+	@Autowired
+	Userrepo userrepo;
 	
 	@GetMapping("/allpost")
 	public List<Post> getallpost()
@@ -108,5 +118,74 @@ public class UserApi {
 			return resp;
 		}
 	}
+	
+	@GetMapping("/follow/{userid}")
+	public void followfunction(@PathVariable("userid") int userid,HttpSession httpSession)
+	{
+		try {
+			int uid=(int) httpSession.getAttribute("uid");
+			User user=this.userrepo.getUserByUid(userid);
+			if(user!=null)
+			{
+				Follower follower=this.followerrepo.getBysidAndrid(uid, userid);
+				if(follower==null)
+				{
+					Follower f=new Follower();
+					f.setReceiverid(userid);
+					f.setSenderid(uid);
+					this.followerrepo.save(f);
+					System.out.println("followed👍");
+				}
+				else
+				{
+					this.followerrepo.deleteById(follower.getFid());
+					System.out.println("Unfollowed👎");
+				}
+			}
+			else
+			{
+				throw new Exception(" 404 : No user Found !");
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	@GetMapping("/followedornot/{userid}")
+	public Map<String,Integer> followedornot(@PathVariable("userid") int userid,HttpSession httpSession)
+	{
+		HashMap<String, Integer> resp = new HashMap<>();
+		try {
+			int uid=(int) httpSession.getAttribute("uid");
+			User user=this.userrepo.getUserByUid(userid);
+			if(user!=null)
+			{
+				Follower follower=this.followerrepo.getBysidAndrid(uid, userid);
+				
+				if(follower==null)
+				{
+					
+					resp.put("followed", 0);
+				}
+				else
+				{
+					resp.put("followed", 1);
+				}
+				return resp;
+			}
+			else 
+			{
+				throw new Exception(" 404 : No user Found !");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			resp.put("error", 1);
+			return resp;
+		}
+	}
+	
 
 }

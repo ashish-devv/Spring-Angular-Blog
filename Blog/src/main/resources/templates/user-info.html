@@ -16,9 +16,9 @@
             style="height: 20vh; width: 20vh"
           />
           <div class="text-right mx-2" th:if="${follow==true}">
-            <ul class="list-inline">
-              <li class="list-inline-item">
-                <button class="btn btn-primary">Follow</button>
+            <ul class="list-inline" ng-app="follow">
+              <li class="list-inline-item" ng-controller="followcontroller" ng-init="followedornot();">
+                <button class="btn btn-primary" ng-click="followfun();">{{followbutton}}</button>
               </li>
               <li class="list-inline-item">
                 <button class="btn bg-white">...</button>
@@ -168,6 +168,46 @@
         </div>
       </div>
     </div>
+    <script>
+    var app=angular.module("follow",[]);
+    app.controller("followcontroller",($scope,$http)=>{
+    	var url1="/user/api/followedornot/[[${udetail.uid}]]";
+    	var url2="/user/api/follow/[[${udetail.uid}]]";
+    	//this function is to follow 
+    	$scope.followfun=()=>{
+    		$http.get(url2).then(()=>{
+    			$scope.followedornot()
+    		});
+    	}
+    	//this function is to get the followStatus 
+    	$scope.followedornot=()=>{
+    		$http.get(url1).then(
+    		(response)=>
+    		{
+    			//console.log(response);
+    			var status=response.data.followed;
+    			if(status==0)
+    				{
+    				$scope.followbutton="Follow ✅";
+    				}
+    			else
+    				{
+    				$scope.followbutton="UnFollow ❌";
+    				}
+    		}
+    		,
+    		(error)=>
+    		{
+    			console.log(error);
+    			console.log("error Occured !");
+    		}		
+    		)
+    	}
+    	
+    	
+    	
+    });
+    </script>
 	</section>
 	
 </body>
