@@ -6,10 +6,13 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.ashish.blog.dao.Commentrepo;
+import com.ashish.blog.dao.Likerepo;
 import com.ashish.blog.dao.Postrepo;
 import com.ashish.blog.dao.Tagrepo;
 import com.ashish.blog.dao.Userrepo;
@@ -28,6 +32,7 @@ import com.ashish.blog.entity.Tag;
 import com.ashish.blog.entity.User;
 import com.ashish.blog.helper.FileUploadHelper;
 import com.ashish.blog.helper.Messages;
+
 
 @Controller
 @RequestMapping("/user")
@@ -46,7 +51,15 @@ public class UserContoller {
 	Tagrepo tagrepo;
 	
 	@Autowired
+	Likerepo likerepo;
+	
+	@Autowired
 	FileUploadHelper fileuploadhelper;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
+	
 	
 	@RequestMapping("/")
 	public String userhome(Authentication authentication,HttpSession httpSession)
@@ -287,6 +300,7 @@ public class UserContoller {
 				int id=(int) httpSession.getAttribute("uid");
 				tag.setTag_by_uid(id);
 				Tag tagg=this.tagrepo.save(tag);
+				System.out.println(tagg);
 				
 			}
 			else
@@ -300,6 +314,115 @@ public class UserContoller {
 			// TODO: handle exception
 		}
 		
+	}
+	
+	@GetMapping("/settings")
+	public String settings(Model model,HttpSession httpSession)
+	{
+		try {
+			int uid=(int) httpSession.getAttribute("uid");
+			User user=this.userrepo.getUserByUid(uid);
+			model.addAttribute("profile", user);
+			return "accountsetting";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+	
+	@PostMapping("/changepassword")
+	public String changepassword(@RequestParam("npwd") String newpassword,Authentication authentication,HttpSession httpSession)
+	{
+		try {
+			String email = authentication.getName();
+			User user= this.userrepo.getUserByusername(email);
+			user.setPassword(passwordEncoder.encode(newpassword ));
+			this.userrepo.save(user);
+			httpSession.setAttribute("message", new Messages("Password changed SuccessFully!","alert-success"));
+
+			return"redirect:/user/settings";
+		} catch (Exception e) {
+			e.printStackTrace();
+			httpSession.setAttribute("message", new Messages("Something Is Wrong! Please try Again After Login!","alert-danger"));
+			return"redirect:/user/settings";
+		}
+	}
+	
+	@PostMapping("/addprofilepic")
+	public String adddp(HttpSession httpSession,@RequestParam("propic") MultipartFile propic)
+	{
+		try {
+			int uid=(int) httpSession.getAttribute("uid");
+			User u=this.userrepo.getUserByUid(uid);
+			if(propic.isEmpty())
+			{
+				throw new Exception("Profile Picture is Empty !");
+			}
+			else {
+				LocalDateTime now = LocalDateTime.now();
+				String Filename=now+StringUtils.cleanPath(propic.getOriginalFilename());
+				Filename=Filename.toLowerCase().replaceAll(":", "-");
+				boolean status=fileuploadhelper.uploadfile(propic,Filename);
+				if(status)
+				{
+
+					u.setProfilepic("/img/"+Filename);
+					this.userrepo.save(u);
+					httpSession.setAttribute("message", new Messages("Profile Picture Posted !","alert-success"));
+				}
+				
+			}
+			return "redirect:/user/settings";
+		} catch (Exception e) {
+			e.printStackTrace();
+			httpSession.setAttribute("message", new Messages("Something Went Wrong!","alert-danger"));
+			return "redirect:/user/settings";
+			
+		}
+	}
+	
+	@PostMapping("/editaccountdetail")
+	public String editaccountdetail(HttpSession httpSession,@ModelAttribute User u)
+	{
+		try {
+			int uid=(int)httpSession.getAttribute("uid");
+			User user=this.userrepo.getUserByUid(uid);
+			if(user!=null)
+			{
+				System.out.println(u);
+				user.setAboutme(u.getAboutme());
+				user.setFbid(u.getFbid());
+				user.setGithubid(u.getGithubid());
+				user.setInstaid(u.getInstaid());
+				user.setTwitterid(u.getTwitterid());
+				System.out.println(user);
+				
+				this.userrepo.save(user);
+				httpSession.setAttribute("message", new Messages("Saved Changes Successfully!🎯","alert-success"));
+			}
+			return "redirect:/user/settings";
+		} catch (Exception e) {
+			e.printStackTrace();
+			httpSession.setAttribute("message", new Messages("Something Went Wrong!","alert-danger"));
+			return "redirect:/user/settings";
+			
+		}
+	}
+	
+	@GetMapping("/deleteaccount")
+	public String deleteaccount(HttpSession httpSession)
+	{
+		try {
+			int uid=(int) httpSession.getAttribute("uid");
+			
+			this.userrepo.deleteById(uid);
+			
+			return "redirect:/logout";
+		} catch (Exception e) {
+			e.printStackTrace();
+			httpSession.setAttribute("message", new Messages("Something Went Wrong!"+e.getMessage(),"alert-danger"));
+			return "redirect:/user/settings";
+		}
 	}
 	
 	

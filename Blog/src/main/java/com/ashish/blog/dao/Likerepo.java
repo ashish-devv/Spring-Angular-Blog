@@ -13,5 +13,8 @@ public interface Likerepo extends JpaRepository<Like, Integer>{
 	
 	@Query("select COUNT(l) from Like l where l.postid= :pid")
 	public int countBypid(@Param("pid") int pid);
+	
+	@Query("delete from Like l where l.userid= :userid")
+	public void deleteByuserid(@Param("userid") int userid);
 
 }

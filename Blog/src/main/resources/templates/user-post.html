@@ -6,10 +6,7 @@
 </head>
 <body>
 	<section>
-	<script
-      src="https://cdn.tiny.cloud/1/z1vbaapblaam1kf3lf73pkdcrgyfu1hawk422u3d2e4i0eoa/tinymce/5/tinymce.min.js"
-      referrerpolicy="origin"
-    ></script>
+	<script src="https://cdn.tiny.cloud/1/timhjb17fsk2uhk8snehz1m5tnzajc67d3b2iflysdrta6lp/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 	<div class="container-fluid">
       <div class="row">
         <div class="col-md-8">
@@ -54,7 +51,7 @@
                       
                     /> -->
                     <label for="tag" class="mx-2">#️⃣ Select Tag</label>
-                    <select  id="tag"class="form-control p-4 mx-2 border border-primary" name="postTag" >
+                    <select  id="tag"class="form-control custom-select  border border-primary" name="postTag" >
                     <option value="" disabled selected >Choose Tags ..</option>
                     
                     <option th:each="tag:${tags}" th:value="${tag.tag_name}" th:text="${tag.tag_name}"></option>

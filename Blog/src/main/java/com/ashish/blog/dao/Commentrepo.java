@@ -16,5 +16,7 @@ public interface Commentrepo extends JpaRepository<Comments, Integer>{
 	@Query("select count(c) from Comments c where c.uid= :uid")
 	public int noOfCommentbyUid(@Param("uid") int uid);
 	
+	public void deleteByuid(int uid);
+	
 }
  

@@ -55,7 +55,7 @@ public class Homecontroller {
 			}
 			user.setRole("ROLE_USER");
 			user.setEnabled(true);
-			user.setProfilepic("/img/default.png");
+			user.setProfilepic("/img/default.jpg");
 			user.setAboutme("404 Bio Not Found ❌");
 			String email=user.getRegistration();
 			email=email+"@cutm.ac.in";

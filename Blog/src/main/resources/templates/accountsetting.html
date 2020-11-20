@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+<head>
+	<meta charset="UTF-8" />
+	<title></title>
+</head>
+<body>
+	<section>
+	<div class="container">
+      <h1 class="display-3">Account Settings ⚙</h1>
+      <hr />
+      <div class="row">
+        <!-- this is Change Password. -->
+        <div class="col col-lg-4">
+          <form method="POST" action="/user/changepassword" onSubmit = "return checkPassword(this)">
+            <h3 class="text-bold">Change password 🔃</h3>
+            <div class="card border border-dark m-2 p-2" style="width: 18rem">
+              <div class="card-body">
+                <p class="card-text">
+                  <input
+                    type="password"
+                    name="npwd"
+                    id="npwd"
+                    class="form-control border border-dark"
+                    placeholder="New Password 🔐"
+                    required
+                    title="8 characters minimum"
+                    pattern=".{8,}"
+                  />
+                  <input
+                    type="password"
+                    id="reppwd"
+                    name="reppwd"
+                    class="form-control border border-dark"
+                    placeholder="Retype New Password 🔐"
+                    required
+                    title="8 characters minimum"
+                    pattern=".{8,}"
+                  />
+                </p>
+                <button type="submit" class="btn btn-success">
+                  Change Password
+                </button>
+                <button class="btn btn-primary" type="reset">Reset</button>
+                <script>
+                function checkPassword(form) { 
+                    password1 = form.npwd.value; 
+                    password2 = form.reppwd.value; 
+      
+                    // If password not entered 
+                    if (password1 == '') 
+                        alert ("Please enter Password"); 
+                          
+                    // If confirm password not entered 
+                    else if (password2 == '') 
+                        alert ("Please enter confirm password"); 
+                          
+                    // If Not same return False.     
+                    else if (password1 != password2) { 
+                        alert ("\nPassword did not match: Please try again...") 
+                        return false; 
+                    } 
+      
+                    // If same return True. 
+                    else{ 
+                        return true; 
+                    } 
+                } 
+                </script>
+              </div>
+            </div>
+          </form>
+          <h3 class="text-bold">Delete Your Account</h3>
+          <div class="card border border-dark m-2 p-2" style="width: 18rem">
+            <div class="card-body">
+              <p class="card-text">
+                <div class="lead" style="color:red;"> <sup>*</sup> Your Account Will be Deleted.No data will be left In our Systems.</div>
+              </p>
+              <a href="/user/deleteaccount"  class="btn btn-danger" onclick="return confirm('Are you sure to Delete Account🚮?')" >Delete Account 💀</a>
+               
+            </div>
+          </div>
+        </div>
+
+        <!-- this is Account setting .-->
+        <div class="col col-lg-8 border border-dark">
+          <h3 class="text-bold">Edit Profile ✏</h3>
+          <form action="/user/addprofilepic" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+            <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			  <p th:text="${session.message.content}"></p>
+			  <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+			  </div>
+              <h6>Profile Picture</h6>
+              <img
+                th:src="@{${profile.profilepic}}"
+                alt="Profile_pic"
+                class="img-fluid"
+                width="200"
+                height="100"
+              />
+              <input
+                type="file"
+                name="propic"
+                id="propic"
+                class="form-control"
+                accept="image/*"
+                required
+              />
+              <input type="submit" class="btn btn-success" />
+            </div>
+          </form>
+          <form action="/user/editaccountdetail" method="POST">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input
+              name="name"
+                type="text"
+                class="form-control"
+                id="name"
+                readonly
+                th:value="${profile.name}"
+              />
+              <small class="form-text text-muted"
+                >This Part Can't be Edited</small
+              >
+            </div>
+            <div class="form-group">
+              <label for="Collegename">College Name</label>
+              <input
+              name="collegename"
+                type="text"
+                class="form-control"
+                id="Collegename"
+                readonly
+                th:value="${profile.collegename}"
+              />
+            </div>
+            <div class="form-group">
+              <label for="bio">Bio Section/About You ✏ </label>
+              <textarea
+                class="form-control border border-dark"
+                name="aboutme"
+                id="bio"
+                cols="30"
+                rows="5"
+                placeholder="About YourSelf 💘"
+                required
+              >[[${profile.aboutme}]]</textarea>
+            </div>
+            <div class="form-group">
+              <label for="social">Github</label>
+              <input
+                type="text"
+                name="githubid"
+                id="github"
+                class="form-control border border-dark"
+                placeholder="Github (Give Your Account Username)"
+                th:value="${profile.githubid}"
+              />
+              <label for="social">Facebook</label>
+              <input
+                type="text"
+                name="fbid"
+                id="facebook"
+                class="form-control border border-dark"
+                placeholder="Facebook (Give Your Account Username)"
+                th:value="${profile.fbid}"
+              />
+              <label for="social">Instagram</label>
+              <input
+                type="text"
+                name="instaid"
+                id="instagram"
+                class="form-control border border-dark"
+                placeholder="Instagarm (Give Your Account Username)"
+                th:value="${profile.instaid}"
+              />
+              <label for="social">Twitter.</label>
+              <input
+                type="text"
+                name="twitterid"
+                id="twitter"
+                class="form-control border border-dark"
+                placeholder="Twitter (Give Your Account Username)"
+                th:value="${profile.twitterid}"
+              />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Changes.🎯</button>
+          </form>
+        </div>
+      </div>
+    </div>
+	
+	</section>
+	
+</body>
+</html>
