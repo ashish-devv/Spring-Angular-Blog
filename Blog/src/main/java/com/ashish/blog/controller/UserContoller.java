@@ -191,6 +191,7 @@ public class UserContoller {
 				model.addAttribute("noofcomment", noofcomment);
 				model.addAttribute("listofPost", listofPost);
 				model.addAttribute("follow", false);
+				model.addAttribute("editable", true);
 			}
 			else {
 				return "redirect:/user/";
@@ -424,6 +425,70 @@ public class UserContoller {
 			return "redirect:/user/settings";
 		}
 	}
+	
+	@GetMapping("/deletepost/{pid}")
+	public String deletepost(@PathVariable("pid") int pid,HttpSession httpSession)
+	{
+		try {
+			int uid=(int) httpSession.getAttribute("uid");
+			Post post =this.postrepo.findByPid(pid);
+			if(post.getId()==uid)
+			{
+				this.postrepo.deleteById(pid);
+				httpSession.setAttribute("message", new Messages("Post Deleted !🎯","alert-success"));
+			}
+			else
+			{
+				httpSession.setAttribute("message", new Messages("Some Error Occured!","alert-danger"));
+			}
+			return"redirect:/user/me";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return"redirect:/user/";
+		}
+	}
+	
+	
+	@GetMapping("/savedtopost/{pid}")
+	public String savetopost(@PathVariable("pid") int pid,HttpSession httpSession)
+	{
+		try {
+			int uid=(int) httpSession.getAttribute("uid");
+			Post post =this.postrepo.findByPid(pid);
+			if(post.getId()==uid)
+			{
+				post.setPostStatus(true);
+				this.postrepo.save(post);
+				httpSession.setAttribute("message", new Messages("Draft is Posted!🎯","alert-success"));
+			}
+			return "redirect:/user/me";
+		} catch (Exception e) {
+			e.printStackTrace();
+			httpSession.setAttribute("message", new Messages("Something Is Wrong !🎯","alert-danger"));
+			return"redirect:/user/me";
+		}
+	}
+	
+	
+	@GetMapping("/editpost/{pid}")
+	public String editpost(@PathVariable("pid") int pid,HttpSession httpSession,Model model)
+	{
+		try {
+			int uid=(int) httpSession.getAttribute("uid");
+			Post post =this.postrepo.findByPid(pid);
+			if(post.getId()==uid)
+			{
+				List<Tag> t=this.tagrepo.FindAllTag();
+				model.addAttribute("tags", t);
+				model.addAttribute("post", post);
+			}
+			return "editpost";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "redirect:/user/";
+		}
+	}
+	
 	
 	
 	

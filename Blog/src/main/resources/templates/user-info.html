@@ -93,6 +93,10 @@
           </div>
         </div>
         <div class="col-md-7">
+        <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+		<p th:text="${session.message.content}"></p>
+		<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+		</div>
         <!-- Post starts From Here  -->
           <div class="card" th:each="post: ${listofPost}" th:unless="${listofPost.empty}">
             <div class="card mb-2 border border-dark">
@@ -107,9 +111,12 @@
                 </h2>
                 <p class="card-text" th:utext="${post.postDescription}" th:if="${post.postDescription != null}">
                 </p>
-                <a th:href="@{|/user/post/${post.pid}|}" class="btn btn-primary"
+                <a th:href="@{|/user/post/${post.pid}|}" th:if="${post.postStatus==true}" class="btn btn-primary"
                   >Read Post 📪</a
                 >
+                <a th:href="@{|/user/deletepost/${post.pid}|}" class="btn btn-outline-danger btn-sm mx-4" th:if="${editable == true}" onclick="return confirm('Are you sure to Delete Post🚮?')">Delete🔥</a>
+                <a th:href="@{|/user/editpost/${post.pid}|}" class="btn btn-outline-dark btn-sm mx-1" th:if="${editable == true}" onclick="return confirm('Are you sure to Edit Post ✏?')">Edit✏</a>
+                <a th:href="@{|/user/savedtopost/${post.pid}|}" class="btn btn-success btn-sm mx-1" th:if="${editable == true && post.postStatus==false}" onclick="return confirm('Are you sure to Post ✏?')">Post This Draft 📁</a>
               </div>
               <div class="card-footer text-muted">
                 Posted on <span th:text="${#dates.format(post.postedon, 'dd-MM-yyyy HH:mm')}"></span> by
