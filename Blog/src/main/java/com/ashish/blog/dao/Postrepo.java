@@ -21,5 +21,5 @@ public interface Postrepo extends JpaRepository<Post, Integer>{
 	@Query("select count(p) from Post p where p.id= :id")
 	public int findNoofPostByid(@Param("id") int id);
 	
-	
+	public List<Post> findByPostHeadingContainingAndPostStatusIs(String postHeading,boolean PostStatus);
 }

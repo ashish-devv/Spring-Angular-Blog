@@ -36,7 +36,19 @@
 	margin-left:0%!important;
 	}
 }
+.search-container
+{
+	position:relative;
+}
 
+.search-result
+{
+	
+	width:100%;
+	padding:10px;
+	
+	
+}
 
 
 

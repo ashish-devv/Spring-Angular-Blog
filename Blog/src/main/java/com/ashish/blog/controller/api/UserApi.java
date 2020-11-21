@@ -187,5 +187,21 @@ public class UserApi {
 		}
 	}
 	
+	@GetMapping("/searchpost/{keyword}")
+	public List<Post> searchpost(@PathVariable("keyword") String keyword)
+	{
+		List<Post> list;
+		if(keyword.equals("")||keyword.equals(" "))
+		{
+			list=null;
+		}
+		else
+		{
+			list= this.postrepo.findByPostHeadingContainingAndPostStatusIs(keyword,true);
+		}
+		
+		return list;
+	}
+	
 
 }
