@@ -12,6 +12,25 @@
     height: auto;
     }
 	</style>
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Share link Of This Post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" value="" class="form-control" readonly id="sharelink">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="copyFunction()">🔗Copy link to ClipBoard</button>
+      </div>
+    </div>
+  </div>
+</div>
 	<div class="container-fluid">
       <div class="row">
         <!-- Post Content Column -->
@@ -56,9 +75,26 @@
             <div ng-app="like">
             <button id="likecounter" class='btn btn-default btn-lg ml-4 btn-outline-success' ng-controller="likepost" ng-init="getlikecountfunction();" ng-click="likefunction();">Like:{{likecounter}} 
             <span>{{likeicon}}</i></span></button>
-            <button class="btn btn-default btn-lg ml-4 btn-outline-dark"><i class="fa fa-share-alt-square fa-3" aria-hidden="true"></i></button>
+            <button class="btn btn-default btn-lg ml-4 btn-outline-dark" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-share-alt-square fa-3" aria-hidden="true"></i> Share</button>
             <button class="btn btn-default btn-lg ml-4 btn-outline-dark"><i class="fa fa-ellipsis-v fa-3" aria-hidden="true"></i></button>
             <button class="btn btn-default btn-lg ml-4 btn-outline-success" onclick="alert('saved');"><small>Save for later 🤝</small></button>
+            <script>
+            document.getElementById("sharelink").value=window.location.href;
+            function copyFunction() {
+            	  /* Get the text field */
+            	  var copyText = document.getElementById("sharelink");
+
+            	  /* Select the text field */
+            	  copyText.select();
+            	  copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+            	  /* Copy the text inside the text field */
+            	  document.execCommand("copy");
+
+            	  /* Alert the copied text */
+            	  alert("Copied the text: " + copyText.value);
+            	}
+            </script>
             </div>
             <hr />
             <div class="container">

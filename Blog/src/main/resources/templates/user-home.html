@@ -46,11 +46,20 @@
           </h1>
           <div class="search-container my-3" ng-controller="searchcontroller">
           <input type="text" class="form-control mb-2 border border-primary align-center" placeholder="Search 🔎"  autocomplete="off" ng-model="searchkeyword" ng-keyup="searchpost()">
-          <div class="search-result border border-primary card" ng-hide="hidebar">
+          <div class="search-result border border-primary card" ng-hide="hidebar" style="background-color: lightblue;">
+          <div class="searchpost" ng-hide="hidepost">
           <p class="mx-2"> <em>Posts</em> </p>
           <ul class="list-group">
 		  <li class="list-group-item border border-dark" ng-repeat="li in searchresult"><a href="/user/post/{{li.pid}}">{{li.postHeading}}</a> 👉 <a href="/user/user/{{li.id}}">{{li.authorName}}</a><small class="text-muted"> <sub>{{li.postedon | date:'medium'}}</sub></small> </li>
 		  </ul>
+		  <hr>
+		  </div>
+		  <div class="searchuser" ng-hide="hideuser">
+		  <p class="mx-2"> <em>User</em> </p>
+		  <ul class="list-group">
+		  <li class="list-group-item border border-dark" ng-repeat="li in searchresultt"> <a href="/user/user/{{li.uid}}">{{li.name}}</a> from {{li.collegename}}</li>
+		  </ul>
+		  </div>
           </div>
           </div>
           <!-- Blog Post -->

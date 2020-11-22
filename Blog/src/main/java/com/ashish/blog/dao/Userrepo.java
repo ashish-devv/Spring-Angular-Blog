@@ -1,5 +1,7 @@
 package com.ashish.blog.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,5 +15,7 @@ public interface Userrepo extends JpaRepository<User, Integer> {
 	
 	@Query("select u from User u  where u.uid= :uid")
 	public User getUserByUid(@Param("uid") int uid);
+	
+	public List<User> findByNameContainingAndRoleIs(String name,String role);
 
 }

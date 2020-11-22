@@ -14,26 +14,53 @@ app.controller("postcontoller", ($scope, $http) => {
 
 app.controller("searchcontroller", ($scope, $http) => {
   $scope.hidebar = true;
+  $scope.hidepost = true;
+  $scope.hideuser = true;
   $scope.searchpost = () => {
     var keyword = $scope.searchkeyword;
     if (keyword == "") {
       $scope.hidebar = true;
+      $scope.hidepost = true;
     } else {
-      $http.get("/user/api/searchpost/" + keyword).then(
-        (response) => {
-          if (response.data.length == 0) {
-            $scope.hidebar = true;
-          } else {
-            $scope.hidebar = false;
-            $scope.searchresult = response.data;
+      $http
+        .get("/user/api/searchpost/" + keyword)
+        .then(
+          (response) => {
+            console.log("post: " + response.data.length);
+            if (response.data.length == 0) {
+              $scope.hidebar = true;
+              $scope.hidepost = true;
+            } else {
+              $scope.hidepost = false;
+              $scope.hidebar = false;
+              $scope.searchresult = response.data;
+            }
+            // console.log(response.data.length);
+            // console.log(response);
+          },
+          (error) => {
+            console.log(error);
           }
-          // console.log(response.data.length);
-          // console.log(response);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+        )
+        .then(
+          $http.get("/user/api/searchuser/" + keyword).then(
+            (response) => {
+              console.log("user: " + response.data.length);
+              if (response.data.length == 0) {
+                $scope.hidebar = true;
+                $scope.hideuser = true;
+              } else {
+                $scope.hideuser = false;
+                $scope.hidebar = false;
+                $scope.searchresultt = response.data;
+                console.log(response.data);
+              }
+            },
+            (error) => {
+              console.log(error);
+            }
+          )
+        );
     }
   };
 });

@@ -10,6 +10,8 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class User {
 	
@@ -50,6 +52,7 @@ public class User {
 	private String registration;
 	
 	@Column(nullable = false,length = 300)
+	@JsonIgnore
 	private String password;
 	
 	private String role;

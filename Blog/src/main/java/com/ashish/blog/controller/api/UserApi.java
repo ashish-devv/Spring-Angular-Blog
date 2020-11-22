@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -201,6 +202,27 @@ public class UserApi {
 		}
 		
 		return list;
+	}
+	
+	@GetMapping("/searchuser/{keyword}")
+	public ResponseEntity<?> searchuser(@PathVariable("keyword") String keyword)
+	{
+		List<User> list;
+		if(keyword.equals("")||keyword.equals(" "))
+		{
+			list=null;
+		}
+		else
+		{
+			list=this.userrepo.findByNameContainingAndRoleIs(keyword, "ROLE_USER");
+//			for (User temp : list) {
+//				temp.setPassword(null);
+//	            System.out.println(temp);
+//	        }
+			//System.out.println(list);
+		}
+		
+		return ResponseEntity.ok(list);
 	}
 	
 
