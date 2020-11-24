@@ -21,7 +21,7 @@ public class Tag {
 	private String tag_name;
 	
 	@Column(nullable = false)
-	private int tag_by_uid;
+	private int tagbyuid;
 	
 	@Column(nullable = false,updatable=false)
 	@CreationTimestamp
@@ -43,12 +43,14 @@ public class Tag {
 		this.tag_name = tag_name;
 	}
 
-	public int getTag_by_uid() {
-		return tag_by_uid;
+	
+
+	public int getTagbyuid() {
+		return tagbyuid;
 	}
 
-	public void setTag_by_uid(int tag_by_uid) {
-		this.tag_by_uid = tag_by_uid;
+	public void setTagbyuid(int tagbyuid) {
+		this.tagbyuid = tagbyuid;
 	}
 
 	public Date getTag_createdon() {
@@ -61,15 +63,15 @@ public class Tag {
 
 	@Override
 	public String toString() {
-		return "Tag [tag_id=" + tag_id + ", tag_name=" + tag_name + ", tag_by_uid=" + tag_by_uid + ", tag_createdon="
+		return "Tag [tag_id=" + tag_id + ", tag_name=" + tag_name + ", tagbyuid=" + tagbyuid + ", tag_createdon="
 				+ tag_createdon + "]";
 	}
 
-	public Tag(int tag_id, String tag_name, int tag_by_uid, Date tag_createdon) {
+	public Tag(int tag_id, String tag_name, int tagbyuid, Date tag_createdon) {
 		super();
 		this.tag_id = tag_id;
 		this.tag_name = tag_name;
-		this.tag_by_uid = tag_by_uid;
+		this.tagbyuid = tagbyuid;
 		this.tag_createdon = tag_createdon;
 	}
 

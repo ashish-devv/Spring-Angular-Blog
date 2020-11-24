@@ -12,4 +12,6 @@ public interface Tagrepo extends JpaRepository<Tag, Integer>{
 	@Query("select t from Tag t ")
 	List<Tag> FindAllTag();
 	
+	public List<Tag> findByTagbyuid(int uid);
+	
 }

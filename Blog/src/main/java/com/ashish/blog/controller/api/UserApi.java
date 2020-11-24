@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ashish.blog.dao.Followerrepo;
 import com.ashish.blog.dao.Likerepo;
 import com.ashish.blog.dao.Postrepo;
+import com.ashish.blog.dao.Tagrepo;
 import com.ashish.blog.dao.Userrepo;
 import com.ashish.blog.entity.Follower;
 import com.ashish.blog.entity.Like;
 import com.ashish.blog.entity.Post;
+import com.ashish.blog.entity.Tag;
 import com.ashish.blog.entity.User;
 
 @RestController
@@ -34,6 +36,9 @@ public class UserApi {
 	
 	@Autowired
 	Followerrepo  followerrepo;
+	
+	@Autowired
+	Tagrepo tagrepo;
 	
 	@Autowired
 	Userrepo userrepo;
@@ -225,5 +230,17 @@ public class UserApi {
 		return ResponseEntity.ok(list);
 	}
 	
+	@GetMapping("/tag")
+	public ResponseEntity<?> tagbyuser(HttpSession httpSession)
+	{
+		try {
+			
+			List<Tag> list=this.tagrepo.findByTagbyuid((int) httpSession.getAttribute("uid"));
+			return ResponseEntity.ok(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.ok("Error Occured");
+		}
+	}
 
 }

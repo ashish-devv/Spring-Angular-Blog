@@ -22,11 +22,12 @@
         </button>
       </div>
       <div class="modal-body">
-        <input type="text" value="" class="form-control" readonly id="sharelink">
+        <input type="text" value="" class="form-control"  id="sharelink">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" onclick="copyFunction()">🔗Copy link to ClipBoard</button>
+        <a href="" class="btn btn-success" id="whtslink">Share Via WhatsApp</a>
       </div>
     </div>
   </div>
@@ -75,11 +76,31 @@
             <div ng-app="like">
             <button id="likecounter" class='btn btn-default btn-lg ml-4 btn-outline-success' ng-controller="likepost" ng-init="getlikecountfunction();" ng-click="likefunction();">Like:{{likecounter}} 
             <span>{{likeicon}}</i></span></button>
-            <button class="btn btn-default btn-lg ml-4 btn-outline-dark" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-share-alt-square fa-3" aria-hidden="true"></i> Share</button>
-            <button class="btn btn-default btn-lg ml-4 btn-outline-dark"><i class="fa fa-ellipsis-v fa-3" aria-hidden="true"></i></button>
+            <button class="btn btn-default btn-lg ml-4 btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-share-alt-square fa-3" aria-hidden="true"></i> Share</button>
+            
             <button class="btn btn-default btn-lg ml-4 btn-outline-success" onclick="alert('saved');"><small>Save for later 🤝</small></button>
+            
+            <div class="dropdown ml-4 my-1">
+			  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			    More options
+			  </a>
+			
+			  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+			    <a class="dropdown-item" href="#">Report POST !👿</a>
+			    <a class="dropdown-item" href="#">Edit✏</a>
+			    <a class="dropdown-item" href="#">Delete 🚮</a>
+			  </div>
+			</div>
+            
+            
+            
             <script>
             document.getElementById("sharelink").value=window.location.href;
+            var message="whatsapp://send?text=Hey Look at My Post !, *Share Your Views By Liking and commenting It.*, 👉 "+window.location.href;
+            var l=document.getElementById("whtslink");
+            l.setAttribute("href",message);
+            
+            console.log(message);
             function copyFunction() {
             	  /* Get the text field */
             	  var copyText = document.getElementById("sharelink");

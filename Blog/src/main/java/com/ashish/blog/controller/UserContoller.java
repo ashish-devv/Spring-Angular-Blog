@@ -299,7 +299,7 @@ public class UserContoller {
 			if(httpSession.getAttribute("uid") != null)
 			{
 				int id=(int) httpSession.getAttribute("uid");
-				tag.setTag_by_uid(id);
+				tag.setTagbyuid(id);
 				Tag tagg=this.tagrepo.save(tag);
 				System.out.println(tagg);
 				
@@ -489,6 +489,19 @@ public class UserContoller {
 		}
 	}
 	
+	@GetMapping("/tag")
+	public String showtag()
+	{
+		try 
+		{
+			return "tag";
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return "error";
+		}
+	}
 	
 	
 	
