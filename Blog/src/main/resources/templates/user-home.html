@@ -27,7 +27,7 @@
               >
               <ul class="list-group card border border-dark">
                 <li class="list-group-item">Reading List 📚</li>
-                <li class="list-group-item">Tags #️⃣</li>
+                <a href="/user/tag" class="list-group-item text-decoration-none">Tags #️⃣</a>
                 <li class="list-group-item">Followed 🚶‍♂️</li>
               </ul>
             </div>
@@ -44,6 +44,12 @@
               </a></small
             >
           </h1>
+          <!-- Message : Error -->
+          <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			  <p th:text="${session.message.content}"></p>
+			  <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+			</div>
+			
           <div class="search-container my-3" ng-controller="searchcontroller">
           <input type="text" class="form-control mb-2 border border-primary align-center" placeholder="Search 🔎"  autocomplete="off" ng-model="searchkeyword" ng-keyup="searchpost()">
           <div class="search-result border border-primary card" ng-hide="hidebar" style="background-color: lightblue;">
@@ -169,6 +175,8 @@
                   class="form-control "
                   placeholder="+Add Tag/Topic"
                   name="tag_name"
+                  pattern="[0-9a-z]*"
+                  title="Please only use Alphanumric Characters to make Tag(Use Only Small Char and numbers)"
                 />
                 <span class="input-group-append">
                   <button class="btn btn-success border border-dark" type="submit">+Add</button>

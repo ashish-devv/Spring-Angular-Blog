@@ -22,4 +22,9 @@ public interface Postrepo extends JpaRepository<Post, Integer>{
 	public int findNoofPostByid(@Param("id") int id);
 	
 	public List<Post> findByPostHeadingContainingAndPostStatusIs(String postHeading,boolean PostStatus);
+	
+	@Query("select count(p) from Post p where p.postTag= :tagname")
+	public int findnoofpostbytag(@Param("tagname") String tagname);
+	
+	public List<Post> findByPostTagAndPostStatusTrue(String tag);
 }

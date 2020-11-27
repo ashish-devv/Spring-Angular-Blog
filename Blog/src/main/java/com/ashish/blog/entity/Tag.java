@@ -17,7 +17,7 @@ public class Tag {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int tag_id;
 	
-	@Column(nullable = false)
+	@Column(nullable = false,unique = true)
 	private String tag_name;
 	
 	@Column(nullable = false)

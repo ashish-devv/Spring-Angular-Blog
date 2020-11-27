@@ -242,5 +242,17 @@ public class UserApi {
 			return ResponseEntity.ok("Error Occured");
 		}
 	}
-
+	
+	
+	@GetMapping("/postbytag/{tagname}")
+	public ResponseEntity<?> postbytag(@PathVariable("tagname") String tagname)
+	{
+		try {
+			List<Post> list = this.postrepo.findByPostTagAndPostStatusTrue(tagname);
+			return ResponseEntity.ok(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.ok("Error Occured");
+		}
+	}
 }

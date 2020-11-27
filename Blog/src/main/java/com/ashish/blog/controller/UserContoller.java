@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -19,8 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import com.ashish.blog.dao.Commentrepo;
 import com.ashish.blog.dao.Likerepo;
 import com.ashish.blog.dao.Postrepo;
@@ -301,7 +298,8 @@ public class UserContoller {
 				int id=(int) httpSession.getAttribute("uid");
 				tag.setTagbyuid(id);
 				Tag tagg=this.tagrepo.save(tag);
-				System.out.println(tagg);
+				httpSession.setAttribute("message", new Messages("Tag Added Successfully ✔","alert-success"));
+				//System.out.println(tagg);
 				
 			}
 			else
@@ -311,6 +309,7 @@ public class UserContoller {
 			return "redirect:/user/";
 		} catch (Exception e) {
 			e.printStackTrace();
+			httpSession.setAttribute("message", new Messages("Use Unique Tag Name, This tag Name is Already Created ❌:Something Went Wrong!❌","alert-danger"));
 			return "redirect:/user/";
 			// TODO: handle exception
 		}
@@ -490,16 +489,41 @@ public class UserContoller {
 	}
 	
 	@GetMapping("/tag")
-	public String showtag()
+	public String showtag(Model model)
 	{
 		try 
 		{
+			List<Tag> tags= this.tagrepo.FindAllTag();
+			model.addAttribute("taglist", tags);
 			return "tag";
 		} 
 		catch (Exception e)
 		{
 			e.printStackTrace();
 			return "error";
+		}
+	}
+	
+	@GetMapping("/tag/{tagid}")
+	public String viewtag(@PathVariable("tagid") int tagid,Model model)
+	{
+		try {
+			Tag tag = this.tagrepo.findByTagid(tagid);
+			if(tag==null)
+			{
+				throw new Exception("No tag found by this id"); 
+			}
+			else
+			{
+				int countofpostbythistag=this.postrepo.findnoofpostbytag(tag.getTag_name());
+				model.addAttribute("taginfo",tag);
+				model.addAttribute("countofpost", countofpostbythistag);
+				System.out.println(tag);
+			}
+			return "tagview";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "404";
 		}
 	}
 	
