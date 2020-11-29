@@ -527,6 +527,18 @@ public class UserContoller {
 		}
 	}
 	
+	@GetMapping("/follower")
+	public String followerpage(Model model)
+	{
+		try 
+		{
+			return "follower";
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return "404";
+		}
+	}
 	
 	
 }

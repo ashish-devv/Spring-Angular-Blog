@@ -255,4 +255,33 @@ public class UserApi {
 			return ResponseEntity.ok("Error Occured");
 		}
 	}
+	
+	@GetMapping("/followedlist")
+	public ResponseEntity<?> getfollowedlist(HttpSession httpSession)
+	{
+		try {
+			int uid=(int) httpSession.getAttribute("uid");
+			List<Integer> followelist=this.followerrepo.findReceiveridBySenderid(uid);
+			List<User> li =this.userrepo.findByUidIn(followelist);
+			System.out.println(li);
+			return ResponseEntity.ok(li);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.ok("Error occured");
+		}
+	}
+	
+	@GetMapping("/followerlist")
+	public ResponseEntity<?> getFollowerlist(HttpSession httpSession)
+	{
+		try {
+			int uid=(int) httpSession.getAttribute("uid");
+			List<Integer> followerlist=this.followerrepo.findSenderidByReceiverid(uid);
+			List<User> li =this.userrepo.findByUidIn(followerlist);
+			return ResponseEntity.ok(li);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.ok("error Occured");
+		}
+	}
 }

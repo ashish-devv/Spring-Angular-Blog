@@ -17,5 +17,7 @@ public interface Userrepo extends JpaRepository<User, Integer> {
 	public User getUserByUid(@Param("uid") int uid);
 	
 	public List<User> findByNameContainingAndRoleIs(String name,String role);
+	
+	public List<User> findByUidIn(List<Integer> l);
 
 }
