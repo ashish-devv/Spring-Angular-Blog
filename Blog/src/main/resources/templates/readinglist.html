@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+<head>
+	<meta charset="UTF-8" />
+	<title></title>
+</head>
+<body>
+	<section>
+	<div class="container">
+	<h1 class="display-4">Reading List / Saved List 📚</h1>
+	<hr />
+	<span class="lead">All Your Saved Post Are Here.</span>
+	</div>
+	<div class="container" ng-app="readinglist">
+	<ul class="list-unstyled " ng-controller="r">
+	  <li class="media mb-1" ng-repeat="x in savedlist">
+	    <img src="https://www.onlygfx.com/wp-content/uploads/2020/07/blank-post-it-note-1.png" class="mr-3 img-fluid" alt="..." style="width:100px;height:100px">
+	    <div class="media-body">
+	      <h5 class="mt-0 mb-1">{{x.postHeading}} by {{x.authorName}}</h5>
+	      <p ng-if="x.postDescription" ng-bind-html="x.postDescription"></p>
+	      <a href="/user/post/{{x.pid}}" class="btn btn-success">Read more</a>
+	      
+	    </div>
+	  </li>
+	  
+	</ul>
+	</div>
+	<script>
+	var app=angular.module("readinglist",["ngSanitize"]);
+	app.controller("r",($scope,$http)=>{
+		$http.get("/user/api/getsavedpost").then(
+				(response)=>
+				{
+					//console.log(response.data);
+					$scope.savedlist=response.data;
+				}
+				,
+				(error)=>
+				{
+					console.log(error);
+				})
+		$scope.deletefromsavedlist=()=>{
+			$http.get("").then(
+					()=>{}
+					,
+					
+					
+					()=>{})
+		}
+	});
+	</script>
+	</section>
+	
+</body>
+</html>

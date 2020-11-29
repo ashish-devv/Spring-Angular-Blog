@@ -27,4 +27,7 @@ public interface Postrepo extends JpaRepository<Post, Integer>{
 	public int findnoofpostbytag(@Param("tagname") String tagname);
 	
 	public List<Post> findByPostTagAndPostStatusTrue(String tag);
+	
+	@Query("select p from Post p where p.pid in :list")
+	public List<Post> FindByPidIn(@Param("list") List<Integer> l);
 }

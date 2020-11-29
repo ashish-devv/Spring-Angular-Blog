@@ -78,7 +78,7 @@
             <span>{{likeicon}}</i></span></button>
             <button class="btn btn-default btn-lg ml-4 btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-share-alt-square fa-3" aria-hidden="true"></i> Share</button>
             
-            <button class="btn btn-default btn-lg ml-4 btn-outline-success" onclick="alert('saved');"><small>Save for later 🤝</small></button>
+            <button class="btn btn-default btn-lg ml-4 btn-outline-success" ng-controller="savecontroller" ng-click="savepost();" ><small>Save for later 🤝</small></button>
             
             <div class="dropdown ml-4 my-1">
 			  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -275,7 +275,8 @@
     		    	);
     		
     	};
-    	$scope.likefunction=()=>{
+    	$scope.likefunction=()=>
+    	{
     		$http.get(likeposturl).then(
     		(response)=>{
     			console.log(response);
@@ -290,6 +291,14 @@
     		
     	}
     	
+    	
+    });
+    app.controller("savecontroller",($scope,$http)=>{
+    	$scope.savepost=()=>
+    	{
+    		$http.get("/user/api/savepost/[[${post.pid}]]");
+    		alert("Post Saved");
+    	}
     });
     </script>
 	</section>

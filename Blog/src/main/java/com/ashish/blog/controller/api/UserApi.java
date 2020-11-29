@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ashish.blog.dao.Followerrepo;
 import com.ashish.blog.dao.Likerepo;
 import com.ashish.blog.dao.Postrepo;
+import com.ashish.blog.dao.Savedpostrepo;
 import com.ashish.blog.dao.Tagrepo;
 import com.ashish.blog.dao.Userrepo;
 import com.ashish.blog.entity.Follower;
 import com.ashish.blog.entity.Like;
 import com.ashish.blog.entity.Post;
+import com.ashish.blog.entity.Savedlist;
 import com.ashish.blog.entity.Tag;
 import com.ashish.blog.entity.User;
 
@@ -42,6 +44,9 @@ public class UserApi {
 	
 	@Autowired
 	Userrepo userrepo;
+	
+	@Autowired
+	Savedpostrepo savedpostrepo; 
 	
 	@GetMapping("/allpost")
 	public List<Post> getallpost()
@@ -279,6 +284,53 @@ public class UserApi {
 			List<Integer> followerlist=this.followerrepo.findSenderidByReceiverid(uid);
 			List<User> li =this.userrepo.findByUidIn(followerlist);
 			return ResponseEntity.ok(li);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.ok("error Occured");
+		}
+	}
+	
+	
+	@GetMapping("/savepost/{pid}")
+	public ResponseEntity<?> savepost(@PathVariable("pid") int pid,HttpSession httpSession)
+	{
+		try {
+			int uid=(int) httpSession.getAttribute("uid");
+			Post p=this.postrepo.findByPid(pid);
+			if(p==null)
+			{
+				throw new Exception("No PostId Is there With This Id");
+			}
+			Savedlist slist=this.savedpostrepo.findByPidAndUid(pid, uid);
+			if(slist==null)
+			{
+				Savedlist n = new Savedlist();
+				n.setPid(pid);
+				n.setUid(uid);
+				this.savedpostrepo.save(n);
+			}
+			else
+			{
+				;
+			}
+			return ResponseEntity.ok("Post Saved For later");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.ok("error Occured");
+		}
+	}
+	
+	@GetMapping("/getsavedpost")
+	public ResponseEntity<?> getsavedposts(HttpSession httpSession)
+	{
+		try {
+			int uid=(int) httpSession.getAttribute("uid");
+			
+			List<Integer> postlist=this.savedpostrepo.findPidByUid(uid);
+			
+			List<Post> post =this.postrepo.FindByPidIn(postlist);
+			
+			return ResponseEntity.ok(post);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.ok("error Occured");

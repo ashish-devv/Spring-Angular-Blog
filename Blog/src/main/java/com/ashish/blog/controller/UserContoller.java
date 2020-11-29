@@ -540,5 +540,16 @@ public class UserContoller {
 		}
 	}
 	
+	@GetMapping("/readinglist")
+	public String readinglist()
+	{
+		try {
+			return "readinglist";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "404";
+		}
+	}
+	
 	
 }
