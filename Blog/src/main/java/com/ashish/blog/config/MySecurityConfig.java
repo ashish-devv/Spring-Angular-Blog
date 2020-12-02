@@ -45,10 +45,10 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 		.antMatchers("/admin/**").hasRole("ADMIN")
-		.antMatchers("/user/**").hasRole("USER")
+		.antMatchers("/user/**").hasAnyRole("USER","ADMIN")
 		.antMatchers("/**").permitAll()
 		.and()
-		.formLogin().loginPage("/signin")
+		.formLogin().loginPage("/signin").defaultSuccessUrl("/user/")
 		.and()
 		.csrf().disable();
 	}

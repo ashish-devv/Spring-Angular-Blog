@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/" th:fragment="layout(content)">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/" th:fragment="layout(content)" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head>
+  
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta
@@ -120,6 +121,14 @@
               <a class="dropdown-item" href="/user/settings"
                 >Account Settings.⚙</a
               >
+              <!-- Admin Section -->
+              <div class="dropdown-divider"></div>
+              
+              <a th:if="${session.role=='ROLE_ADMIN'}" class="dropdown-item" href="/admin/"
+                >Switch to Admin 🔐</a
+              >
+              
+              <!-- Admin Section -->
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="/logout">Logout! 🚪 👋</a>
             </div>

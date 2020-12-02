@@ -68,6 +68,7 @@ public class UserContoller {
 		httpSession.setAttribute("name",user.getName());
 		httpSession.setAttribute("email",user.getEmail());
 		httpSession.setAttribute("propic",user.getProfilepic());
+		httpSession.setAttribute("role", user.getRole());
 		return "user-home";
 	}
 	
