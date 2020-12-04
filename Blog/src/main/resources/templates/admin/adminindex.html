@@ -34,8 +34,8 @@
 	      <div class="card bg-primary" >
 		  <ul class="list-group list-group-flush text-center">
 		    <a href="" class="list-group-item text-decoration-none">Home 🏠</a>
-		    <a href="" class="list-group-item text-decoration-none">Add Admin ➕</a>
-		    <a href="" class="list-group-item text-decoration-none">Delete Post 🚯</a>
+		    <a href="#addadmin" class="list-group-item text-decoration-none">Add Admin ➕</a>
+		    <a href="#deletepost" class="list-group-item text-decoration-none">Delete Post 🚯</a>
 		    <a href="" class="list-group-item text-decoration-none">Reported Posts</a>
 		    <a href="" class="list-group-item text-decoration-none">Delete Account 🚮</a>
 		    <a href="/logout" class="list-group-item text-decoration-none">Logout 🚪</a>
@@ -79,7 +79,7 @@
 			<hr class="bg-dark border border-dark"/>
 			<!-- DashBoard Ended -->
 			<!-- Add Admin -->
-			 <div class="container">
+			 <div class="container" id="addadmin">
 			 <h4 class="display-4">Add Other Admin ➕</h4>
 			 <div class="card border border-dark">
 				 <div class="card-header bg-dark text-white">
@@ -88,18 +88,18 @@
 				  <div class="card-body">
 				    <form>
 				    	<div class="form-group">
-					    <label for="exampleInputEmail1">Name</label>
+					    <label for="exampleInputEmail1">Admin Name</label>
 					    <input type="text" class="form-control border border-dark" id="exampleInputEmail1"  placeholder="Enter Your Name" name="name">
 					    
 					  </div>
 					  <div class="form-group">
-					    <label for="exampleInputEmail1">Email address</label>
+					    <label for="exampleInputEmail1"> Admin Email address</label>
 					    <input type="email" class="form-control border border-dark" id="exampleInputEmail1"  placeholder="Enter Your email">
 					    
 					  </div>
 					  <div class="form-group">
-					    <label for="exampleInputEmail1">Email address</label>
-					    <select name="" id="" class="form-control">
+					    <label for="exampleInputEmail1"> Admin College</label>
+					    <select name="" id="" class="form-control border border-dark">
 					    <option value="">CUTM,PKD</option>
 					    <option value="">CUTM,BBSR</option>
 					    <option value="">CUTM,VIZAG</option>
@@ -107,7 +107,7 @@
 					    
 					  </div>
 					  <div class="form-group">
-					    <label for="exampleInputPassword1">Password</label>
+					    <label for="exampleInputPassword1">Admin Password</label>
 					    <input type="password" class="form-control border border-dark" id="exampleInputPassword1" placeholder=" Enter Secure Password">
 					  </div>
 					  
@@ -115,6 +115,21 @@
 					</form>
 				    
 				  </div>
+			 </div>
+			 </div>
+			 <!-- Delete Post -->
+			 <hr class="bg-dark border border-dark"/>
+			 <div class="container" id="deletepost">
+			 <div class="card border border-dark">
+			 <div class="card-header bg-dark text-white">Delete Post</div>
+			 <div class="card-body">
+			 <div class="form-group">
+			 <label for="">Enter Post Id:</label>
+			 <input type="text" class="form-control border border-dark" />
+			 </div>
+			 <button class="btn btn-danger" type="submit"> Delete 🔥</button>
+			 
+			 </div>
 			 </div>
 			 </div>
 			
