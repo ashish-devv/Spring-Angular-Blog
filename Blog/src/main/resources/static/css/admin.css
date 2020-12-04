@@ -1,0 +1,8 @@
+.card:hover {
+  box-shadow: 5px 10px 20px 0 rgb(24, 4, 168);
+}
+.list-group-item:hover
+{
+	background:rgb(24, 4, 168);
+	color:white;
+}
