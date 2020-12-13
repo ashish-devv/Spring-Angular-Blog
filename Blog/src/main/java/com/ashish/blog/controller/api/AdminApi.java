@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ashish.blog.dao.Commentrepo;
 import com.ashish.blog.dao.Postrepo;
 import com.ashish.blog.dao.Userrepo;
+import com.ashish.blog.entity.User;
 
 @RestController
 @RequestMapping("/admin")
@@ -73,6 +74,46 @@ public class AdminApi {
 		}
 	}
 	
+	
+	@RequestMapping("/listallusers")
+	public ResponseEntity<?> listallusers()
+	{
+		try {
+			List<User> l=this.userrepo.findAll();
+			return ResponseEntity.ok(l);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("Error",HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@RequestMapping("/blockuser/{uid}")
+	public ResponseEntity<?> blockuser(@PathVariable("uid") int uid)
+	{
+		try {
+			User u=this.userrepo.getUserByUid(uid);
+			if(u==null)
+			{
+				throw new Exception("No User Found With "+uid);
+			}
+			else 
+			{
+				if(u.isEnabled())
+				{
+					u.setEnabled(false);
+				}
+				else
+				{
+					u.setEnabled(true);
+				}
+				this.userrepo.save(u);
+			}
+			return ResponseEntity.ok(u);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("Error",HttpStatus.NOT_FOUND);
+		}
+	}
 	
 	
 	

@@ -174,7 +174,7 @@
 			 <input type="text" class="form-control border border-dark" placeholder="Enter Account Id To Delete🔥" / ng-model="uid">
 			 </div>
 			 <button class="btn btn-danger" type="submit" ng-click="deletefuntion(uid);" > Delete Account 🔥</button>
-			 <table class="table table-hover table-borderless">
+			 <table class="table table-hover table-borderless" ng-init="listalluser();">
 			  <thead>
 			    <tr>
 			      <th scope="col">User_ID</th>
@@ -183,12 +183,13 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-			    <tr>
-			      <td>1</td>
-			      <td>Ashish</td>
+			    <tr ng-repeat="us in listofusers">
+			      <td>{{us.uid}}</td>
+			      <td><a href="/user/user/{{us.uid}}">{{us.name}}</a></td>
 			      <td>
-			      <button class="btn btn-danger" type="submit"> Delete 🔥</button>
-			      <button class="btn btn-warning" type="submit"> Block 🚫</button></td>
+			      <button class="btn btn-danger" ng-click="deletefuntion(us.uid)"> Delete 🔥</button>
+			      <button class="btn btn-warning" ng-click="blockuser(us.uid)" >{{us.enabled==true ? "Block 🚫" :"UnBlock"}}</button>
+			      </td>
 			    </tr>
 			    </tbody>
 			    </table>
@@ -229,16 +230,53 @@
     	)
     });
     app.controller("deleteaccount",($scope,$http)=>{
+    	
+    	$scope.listalluser=()=>{
+    		$http.get("/admin/listallusers").then(
+    				(response)=>{
+    					$scope.listofusers=response.data;
+    					//console.log(response.data);
+    				},
+    				(error)=>{
+    					console.log(error);
+    				}
+    		)
+    	}
+    	
+    	$scope.blockuser=(id)=>{
+    		var a=confirm('Are Your sure You Want To Block🚯 This Account?');
+    		if(a)
+    			{
+    			$http.get("/admin/blockuser/"+id).then(
+        				(response)=>{
+        					console.log(response.data);
+        					$scope.listalluser();
+        					//console.log(response.data);
+        				},
+        				(error)=>{
+        					console.log(error);
+        				}
+        		)
+    			}
+    		
+    	}
+    	
     	$scope.deletefuntion=(uid)=>{
-    		$http.get("/admin/deleteaccount/"+uid).then(
-    		    	(response)=>{
-    		    		console.log(response.data);
-    		    	}
-    		    	,
-    		    	(error)=>{
-    		    		console.log(error);
-    		    	}		
-    		    	)
+    		var a=confirm('Are Your sure You Want To Delete🔥 This Account?');
+    		if(a)
+    			{
+    			$http.get("/admin/deleteaccount/"+uid).then(
+        		    	(response)=>{
+        		    		console.log(response.data);
+        		    		$scope.listalluser();
+        		    	}
+        		    	,
+        		    	(error)=>{
+        		    		console.log(error);
+        		    	}		
+        		    	)
+    			}
+    		
     	}
     	
     });
