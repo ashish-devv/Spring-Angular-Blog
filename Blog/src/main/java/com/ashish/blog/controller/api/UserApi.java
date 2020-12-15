@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ashish.blog.dao.Followerrepo;
 import com.ashish.blog.dao.Likerepo;
 import com.ashish.blog.dao.Postrepo;
+import com.ashish.blog.dao.Reportrepo;
 import com.ashish.blog.dao.Savedpostrepo;
 import com.ashish.blog.dao.Tagrepo;
 import com.ashish.blog.dao.Userrepo;
 import com.ashish.blog.entity.Follower;
 import com.ashish.blog.entity.Like;
 import com.ashish.blog.entity.Post;
+import com.ashish.blog.entity.Reported;
 import com.ashish.blog.entity.Savedlist;
 import com.ashish.blog.entity.Tag;
 import com.ashish.blog.entity.User;
@@ -47,6 +50,9 @@ public class UserApi {
 	
 	@Autowired
 	Savedpostrepo savedpostrepo; 
+	
+	@Autowired
+	Reportrepo reportrepo; 
 	
 	@GetMapping("/allpost")
 	public List<Post> getallpost()
@@ -334,6 +340,41 @@ public class UserApi {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.ok("error Occured");
+		}
+	}
+	
+	@GetMapping("/report/{postid}")
+	public ResponseEntity<?> reportpost(@PathVariable("postid") int postid)
+	{
+		try {
+			Reported report=this.reportrepo.findByPid(postid);
+			if(report==null)
+			{
+				Reported r=new Reported();
+				r.setPid(postid);
+				this.reportrepo.save(r);
+				return ResponseEntity.ok(r);
+			}
+			else
+			{
+				return ResponseEntity.ok(report);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("Error",HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping("/alltags")
+	public ResponseEntity<?> alltags()
+	{
+		try {
+			List<Tag> l=this.tagrepo.FindAllTag();
+			return ResponseEntity.ok(l);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
 		}
 	}
 }

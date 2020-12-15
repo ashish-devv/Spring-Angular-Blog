@@ -130,40 +130,13 @@
           </div>
 
           <!-- Categories Widget -->
-          <div class="card my-2 border border-dark">
+          <div class="card my-2 border border-dark" ng-controller="showalltags">
             <h5 class="card-header bg-primary text-white border border-dark">
               #️⃣ Tags
             </h5>
             
             <div class="card-body">
-              <div class="row">
-                <div class="col-lg-6">
-                  <ul class="list-unstyled mb-0">
-                    <li>
-                      <a href="#">#Web Design</a>
-                    </li>
-                    <li>
-                      <a href="#">#HTML</a>
-                    </li>
-                    <li>
-                      <a href="#">#Freebies</a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="col-lg-6">
-                  <ul class="list-unstyled mb-0">
-                    <li>
-                      <a href="#">#JavaScript</a>
-                    </li>
-                    <li>
-                      <a href="#">#CSS</a>
-                    </li>
-                    <li>
-                      <a href="#">#Tutorials</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+              <a ng-repeat="x in alltags" href="/user/tag/{{x.tag_id}}" class="btn btn-warning border border-dark">{{x.tag_name}}</a>
             </div>
             <hr />
             <div>
@@ -177,6 +150,7 @@
                   name="tag_name"
                   pattern="[0-9a-z]*"
                   title="Please only use Alphanumric Characters to make Tag(Use Only Small Char and numbers)"
+                  required="required"
                 />
                 <span class="input-group-append">
                   <button class="btn btn-success border border-dark" type="submit">+Add</button>
@@ -189,23 +163,14 @@
           </div>
 
           <!-- Side Widget -->
-          <div class="card my-4 border border-dark">
-            <h5 class="card-header bg-primary text-white border border-dark">
-              Side Widget
-            </h5>
-            <div class="card-body">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Praesentium quae consequatur neque ipsa provident, voluptatibus
-              quasi minus natus nesciunt quas temporibus qui quidem nisi
-              voluptate iste dolores, error officiis veritatis!
-            </div>
-          </div>
+          
         </div>
       </div>
       <!-- /.row -->
     </div>
     <!-- /.container -->
     </div>
+    
     
 	</section>
 	

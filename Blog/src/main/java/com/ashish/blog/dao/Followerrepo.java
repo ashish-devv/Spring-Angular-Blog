@@ -19,5 +19,7 @@ public interface Followerrepo extends JpaRepository<Follower, Integer>{
 	
 	@Query("select f.senderid from Follower f where f.receiverid= :receiverid ")
 	public List<Integer> findSenderidByReceiverid(@Param("receiverid")int receiverid);
+	
+	public Long countByReceiverid(int receiverid);
 
 }

@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ashish.blog.dao.Commentrepo;
 import com.ashish.blog.dao.Postrepo;
+import com.ashish.blog.dao.Reportrepo;
 import com.ashish.blog.dao.Userrepo;
+import com.ashish.blog.entity.Post;
+import com.ashish.blog.entity.Reported;
 import com.ashish.blog.entity.User;
 
 @RestController
@@ -29,6 +32,9 @@ public class AdminApi {
 	
 	@Autowired
 	Commentrepo commentrepo;
+	
+	@Autowired
+	Reportrepo reportrepo;
 	
 	
 	@RequestMapping("/deleteaccount/{uid}")
@@ -115,6 +121,18 @@ public class AdminApi {
 		}
 	}
 	
+	@RequestMapping("/getreportedpost")
+	public ResponseEntity<?> getreportedpost()
+	{
+		try {
+			List<Integer> listofreported=this.reportrepo.FindAll();
+			List<Post> listofpost=this.postrepo.FindByPidIn(listofreported);
+			return ResponseEntity.ok(listofpost);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("Error",HttpStatus.NOT_FOUND);
+		}
+	}
 	
 	
 }

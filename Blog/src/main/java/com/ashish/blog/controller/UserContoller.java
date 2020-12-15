@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.ashish.blog.dao.Commentrepo;
+import com.ashish.blog.dao.Followerrepo;
 import com.ashish.blog.dao.Likerepo;
 import com.ashish.blog.dao.Postrepo;
 import com.ashish.blog.dao.Tagrepo;
@@ -49,6 +50,9 @@ public class UserContoller {
 	
 	@Autowired
 	Likerepo likerepo;
+	
+	@Autowired
+	Followerrepo followerrepo;
 	
 	@Autowired
 	FileUploadHelper fileuploadhelper;
@@ -184,10 +188,12 @@ public class UserContoller {
 				int noofpost=this.postrepo.findNoofPostByid(id);
 				int noofcomment=this.commentrepo.noOfCommentbyUid(id);
 				List<Post> listofPost = this.postrepo.FindAllPostByUserId(id);
+				long nooffollower=this.followerrepo.countByReceiverid(id);
 				model.addAttribute("udetail", user);
 				model.addAttribute("noofpost", noofpost);
 				model.addAttribute("noofcomment", noofcomment);
 				model.addAttribute("listofPost", listofPost);
+				model.addAttribute("nooffollower", nooffollower);
 				model.addAttribute("follow", false);
 				model.addAttribute("editable", true);
 			}
@@ -224,10 +230,12 @@ public class UserContoller {
 			int noofpost=this.postrepo.findNoofPostByid(uid);
 			int noofcomment=this.commentrepo.noOfCommentbyUid(uid);
 			List<Post> listofPost = this.postrepo.FindAllPostByUserId(uid);
+			long nooffollower=this.followerrepo.countByReceiverid(uid);
 			model.addAttribute("udetail", user);
 			model.addAttribute("noofpost", noofpost);
 			model.addAttribute("noofcomment", noofcomment);
 			model.addAttribute("listofPost", listofPost);
+			model.addAttribute("nooffollower", nooffollower);
 			model.addAttribute("follow", true);
 			
 			

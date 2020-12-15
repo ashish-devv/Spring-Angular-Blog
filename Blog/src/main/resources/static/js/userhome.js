@@ -12,6 +12,19 @@ app.controller("postcontoller", ($scope, $http) => {
   );
 });
 
+app.controller("showalltags",($scope,$http)=>{
+    	$http.get("/user/api/alltags").then(
+    	(response)=>{
+    		$scope.alltags=response.data;
+    		console.log(response.data);
+    	}
+    	,
+    	(error)=>{
+    		console.log(error);
+    	}		
+    	)
+    });
+
 app.controller("searchcontroller", ($scope, $http) => {
   $scope.hidebar = true;
   $scope.hidepost = true;
