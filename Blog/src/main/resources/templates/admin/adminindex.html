@@ -132,7 +132,7 @@
 			 <button class="btn btn-danger" type="submit" ng-click="deletepostfuntion(postid);"> Delete 🔥</button>
 			 <hr class="border border-dark " />
 			 <h1 class="lead ">Reported Posts 🚫</h1>
-			 <table class="table table-hover table-borderless">
+			 <table class="table table-hover table-borderless" ng-controller="showreported" ng-init="showrplist();">
 			  <thead>
 			    <tr>
 			      <th scope="col">Post_ID</th>
@@ -141,11 +141,12 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-			    <tr>
-			      <td>1</td>
-			      <td>Ashish</td>
+			    <tr ng-repeat=" list in listofreported">
+			      <td>{{list.pid}}</td>
+			      <td><a href="/user/post/{{list.pid}}">{{list.postHeading}}</a></td>
 			      <td>
-			      <button class="btn btn-danger" type="submit"> Delete 🔥</button>
+			      <button class="btn btn-danger" ng-click="deletereportedpost(list.pid)" > Delete 🔥</button>
+			      <button class="btn btn-primary" ng-click="removefromreportedlist(list.pid)"> Remove From Reported ❎</button>
 			      
 			    </tr>
 			    </tbody>
@@ -185,7 +186,8 @@
 			  <tbody>
 			    <tr ng-repeat="us in listofusers">
 			      <td>{{us.uid}}</td>
-			      <td><a href="/user/user/{{us.uid}}">{{us.name}}</a></td>
+			      <td><a href="/user/user/{{us.uid}}">
+			      {{us.name}}</a></td>
 			      <td>
 			      <button class="btn btn-danger" ng-click="deletefuntion(us.uid)"> Delete 🔥</button>
 			      <button class="btn btn-warning" ng-click="blockuser(us.uid)" >{{us.enabled==true ? "Block 🚫" :"UnBlock"}}</button>
@@ -298,9 +300,48 @@
     
     app.controller("showreported",($scope,$http)=>{
     		$scope.showrplist=()=>{
+    			$http.get("/admin/getreportedpost").then(
+    			(response)=>{
+    				console.log(response.data);
+    				$scope.listofreported=response.data;
+    				
+    			}
+    			,
+    			(error)=>{
+    				console.log(error);
+    			}		
+    			)
+    		}
+    		
+    		$scope.deletereportedpost=(id)=>{
+    			$http.get("/admin/deletereportedpost/"+id).then(
+    					(response)=>{
+    						$scope.showrplist();
+    						console.log(response.data);
+    					}
+    					,
+    					(error)=>{
+    						console.log(error);
+    					});
     			
     		}
+    		
+    		$scope.removefromreportedlist=(id)=>{
+    			$http.get("/admin/removefromreportedlist/"+id).then(
+    					(response)=>{
+    						$scope.showrplist();
+    						console.log(response.data);
+    					}
+    					,
+    					(error)=>{
+    						console.log(error);
+    					});
+    			
+    		}
+    		
     });
+    
+    
     </script>
     
     

@@ -15,7 +15,6 @@ import com.ashish.blog.dao.Postrepo;
 import com.ashish.blog.dao.Reportrepo;
 import com.ashish.blog.dao.Userrepo;
 import com.ashish.blog.entity.Post;
-import com.ashish.blog.entity.Reported;
 import com.ashish.blog.entity.User;
 
 @RestController
@@ -134,5 +133,28 @@ public class AdminApi {
 		}
 	}
 	
+	@RequestMapping("/deletereportedpost/{pid}")
+	public ResponseEntity<?> deletereportedpost(@PathVariable("pid") int pid)
+	{
+		try {
+			this.postrepo.deleteById(pid);
+			return ResponseEntity.ok("Deleted SuccessFully");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("Error",HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@RequestMapping("/removefromreportedlist/{pid}")
+	public ResponseEntity<?> removefromreportedlist(@PathVariable("pid") int pid)
+	{
+		try {
+			this.reportrepo.deletefromreportedlist(pid);
+			return ResponseEntity.ok("removed SuccessFully");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("Error",HttpStatus.NOT_FOUND);
+		}
+	}
 	
 }
