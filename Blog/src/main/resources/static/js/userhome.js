@@ -24,6 +24,13 @@ app.controller("showalltags",($scope,$http)=>{
     	}		
     	)
     });
+    
+app.controller("search",($scope,$http)=>{
+    	$scope.searchfun=(keyword)=>{
+    	window.open("https://www.google.com/search?q="+keyword,'_blank')
+    	
+    	}
+    });
 
 app.controller("searchcontroller", ($scope, $http) => {
   $scope.hidebar = true;

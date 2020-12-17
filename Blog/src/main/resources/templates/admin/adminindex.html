@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -40,6 +40,7 @@
 		    <a href="#deletepost" class="list-group-item text-decoration-none">Delete Post 🚯</a>
 		    <a href="" class="list-group-item text-decoration-none">Reported Posts</a>
 		    <a href="#deleteaccount" class="list-group-item text-decoration-none">Delete Account 🚮</a>
+		    <a href="/user/" class="list-group-item text-decoration-none">Switch To User</a>
 		    <a href="/logout" class="list-group-item text-decoration-none">Logout 🚪</a>
 		  </ul>
 		</div>
@@ -84,36 +85,42 @@
 			 <div class="container" id="addadmin">
 			 <h4 class="display-4">Add Other Admin ➕</h4>
 			 <div class="card border border-dark">
+			 <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			  <p th:text="${session.message.content}"></p>
+			  <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+			</div>
 				 <div class="card-header bg-dark text-white">
 				    Add Admin
 				  </div>
 				  <div class="card-body">
-				    <form>
+				    <form th:action="@{/admin/addadmin}" method="POST" th:object="${user}">
 				    	<div class="form-group">
 					    <label for="exampleInputEmail1">Admin Name</label>
-					    <input type="text" class="form-control border border-dark" id="exampleInputEmail1"  placeholder="Enter Your Name" name="name">
+					    <input type="text" class="form-control border border-dark" id="exampleInputEmail1"  placeholder="Enter Your Name" name="name"
+                    th:value="${user.name}" required> 
 					    
 					  </div>
 					  <div class="form-group">
-					    <label for="exampleInputEmail1"> Admin Email address</label>
-					    <input type="email" class="form-control border border-dark" id="exampleInputEmail1"  placeholder="Enter Your email">
+					    <label for="exampleInputEmail1"> Admin Unique ID</label>
+					    <input type="text" class="form-control border border-dark" id="exampleInputEmail1"  placeholder="Enter Your Unique id On CUTM Domain" name="registration"
+                    th:value="${user.registration}" required>
 					    
 					  </div>
 					  <div class="form-group">
 					    <label for="exampleInputEmail1"> Admin College</label>
-					    <select name="" id="" class="form-control border border-dark">
-					    <option value="">CUTM,PKD</option>
-					    <option value="">CUTM,BBSR</option>
-					    <option value="">CUTM,VIZAG</option>
+					    <select name="collegename" class="form-control border border-dark" required>
+					    <option value="CUTM,PKD">CUTM,PKD</option>
+				    	<option value="CUTM,BBSR">CUTM,BBSR</option>
+				    	<option value="CUTM,VIZAG">CUTM,VIZAG</option>
 					    </select>
 					    
 					  </div>
 					  <div class="form-group">
 					    <label for="exampleInputPassword1">Admin Password</label>
-					    <input type="password" class="form-control border border-dark" id="exampleInputPassword1" placeholder=" Enter Secure Password">
+					    <input type="password" class="form-control border border-dark" id="exampleInputPassword1" placeholder=" Enter Secure Password" name="password"  title="8 characters minimum" pattern=".{8,}" required>
 					  </div>
 					  
-					  <button class="btn btn-success">➕ Admin</button>
+					  <button class="btn btn-success" type="submit">➕ Admin</button>
 					</form>
 				    
 				  </div>

@@ -241,12 +241,11 @@ public class UserApi {
 		return ResponseEntity.ok(list);
 	}
 	
-	@GetMapping("/tag")
-	public ResponseEntity<?> tagbyuser(HttpSession httpSession)
+	@GetMapping("/tag/{id}")
+	public ResponseEntity<?> tagbyuser(@PathVariable("id") int uid)
 	{
 		try {
-			
-			List<Tag> list=this.tagrepo.findByTagbyuid((int) httpSession.getAttribute("uid"));
+			List<Tag> list=this.tagrepo.findByTagbyuid(uid);
 			return ResponseEntity.ok(list);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -287,6 +286,20 @@ public class UserApi {
 	{
 		try {
 			int uid=(int) httpSession.getAttribute("uid");
+			List<Integer> followerlist=this.followerrepo.findSenderidByReceiverid(uid);
+			List<User> li =this.userrepo.findByUidIn(followerlist);
+			return ResponseEntity.ok(li);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.ok("error Occured");
+		}
+	}
+	
+	
+	@GetMapping("/followerlistofuser/{uid}")
+	public ResponseEntity<?> getFollowerlistofuser(@PathVariable("uid") int uid)
+	{
+		try {
 			List<Integer> followerlist=this.followerrepo.findSenderidByReceiverid(uid);
 			List<User> li =this.userrepo.findByUidIn(followerlist);
 			return ResponseEntity.ok(li);

@@ -71,7 +71,7 @@ public class Homecontroller {
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("user",user);
-			session.setAttribute("message", new Messages("Something Went Wrong!!","alert-danger"));
+			session.setAttribute("message", new Messages("Give Unique iD On Cutm Domain (@cutm.ac.in)","alert-danger"));
 			return "signup";
 		}
 		

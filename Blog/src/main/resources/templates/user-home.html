@@ -113,19 +113,25 @@
           <!-- Search Widget -->
           <div class="card my-4 border border-dark">
             <h5 class="card-header bg-primary text-white border border-dark">
-              🔎 Search
+              🔎 Search <small class="tetx-muted">Powered by Google</small>
             </h5>
-            <div class="card-body">
+            <div class="card-body" ng-controller="search">
               <div class="input-group">
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Search for..."
+                  placeholder="Search on Google"
+                  ng-model="searchkey"
                 />
+                	
                 <span class="input-group-append">
-                  <button class="btn btn-secondary" type="button">Go!</button>
+                  <button class="btn btn-danger" type="button" ng-click="searchfun(searchkey);">🔎</button>
                 </span>
+                
               </div>
+              <!-- 
+              <small class="text-muted">Widget For Searching on Google</small>
+               -->
             </div>
           </div>
 
@@ -136,7 +142,7 @@
             </h5>
             
             <div class="card-body">
-              <a ng-repeat="x in alltags" href="/user/tag/{{x.tag_id}}" class="btn btn-warning border border-dark">{{x.tag_name}}</a>
+              <a ng-repeat="x in alltags" href="/user/tag/{{x.tag_id}}" class="btn btn-warning border border-dark">#{{x.tag_name}}</a>
             </div>
             <hr />
             <div>
