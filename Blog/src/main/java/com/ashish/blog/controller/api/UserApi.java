@@ -62,6 +62,19 @@ public class UserApi {
 		return list;
 	}
 	
+	
+	@GetMapping("/allpostbyfollowed")
+	public List<Post> getallpostbyfollowed(HttpSession httpSession)
+	{
+		int uid=(int) httpSession.getAttribute("uid");
+		//System.out.println(uid);
+		List<Integer> followelist=this.followerrepo.findReceiveridBySenderid(uid);
+		//System.out.println(followelist);
+		List<Post> li =this.postrepo.FindByIdIn(followelist);
+		//System.out.println(li);
+		return li;
+	}
+	
 	@GetMapping("/allpostbyme")
 	public List<Post> getallpostbyloggeduser(HttpSession httpSession)
 	{

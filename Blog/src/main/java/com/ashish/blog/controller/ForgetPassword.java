@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,9 @@ import com.ashish.blog.helper.Messages;
 
 @Controller
 public class ForgetPassword {
+	
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	@Autowired
 	EmailConfig emailconfig;
@@ -50,7 +54,7 @@ public class ForgetPassword {
 	public String sendlink(@ModelAttribute("forgetpass") Forgetpass forgetpass,HttpSession httpSession,HttpServletRequest request)
 	{
 		try {
-			//System.out.println(forgetpass);
+			
 			User user=this.userrepo.getUserByusername(forgetpass.getEmail());
 			if(user==null)
 			{
@@ -62,23 +66,14 @@ public class ForgetPassword {
 			    int number = rnd.nextInt(999999);
 				 
 				forgetpass.setUniquekey(number);
-			    
-				JavaMailSenderImpl mailSenderImpl = new JavaMailSenderImpl();
-				mailSenderImpl.setHost(this.emailconfig.getHost());
-				mailSenderImpl.setPort(this.emailconfig.getPort());
-				mailSenderImpl.setUsername(this.emailconfig.getUsername());
-				mailSenderImpl.setPassword(this.emailconfig.getPassword());
 				
-				
-				String message=request.getScheme()+"://"+request.getServerName()+"/changepassword/"+ number;
-				
-				SimpleMailMessage mailMessage=new SimpleMailMessage();
-				mailMessage.setFrom("d2a551ffc5-f09088@inbox.mailtrap.io");
-				mailMessage.setTo(forgetpass.getEmail());
-				mailMessage.setSubject("Password Change Link From BLOG");
-				mailMessage.setText(message);
-				
-				mailSenderImpl.send(mailMessage);
+				SimpleMailMessage message = new SimpleMailMessage();
+				message.setFrom("cutmblogging@gmail.com");
+				message.setTo(forgetpass.getEmail());
+				message.setSubject("Password Change Link From BLOG");
+				String messagecontent=request.getScheme()+"://"+request.getServerName()+"/changepassword/"+ number;
+				message.setText("Click On This Link : \n"+messagecontent);
+				mailSender.send(message);
 				
 				httpSession.setAttribute("message", new Messages("Link Sent SuccessFully 📧 ✅","alert-success"));
 				this.forgetpassrepo.save(forgetpass);

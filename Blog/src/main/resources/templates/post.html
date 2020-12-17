@@ -44,7 +44,7 @@
             <!-- Author -->
             <p class="lead">
               by
-              <a href="#" th:text="${post.authorName}"></a>
+              <a th:href="|/user/user/${post.id}|" th:text="${post.authorName}"></a>
             </p>
 
             <hr />

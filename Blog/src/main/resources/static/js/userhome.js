@@ -4,7 +4,7 @@ app.controller("postcontoller", ($scope, $http) => {
   $http.get("/user/api/allpost").then(
     (response) => {
       $scope.posts = response.data;
-      console.log($scope.posts);
+      //console.log($scope.posts);
     },
     (fail) => {
       console.log("failed");
@@ -31,6 +31,23 @@ app.controller("search",($scope,$http)=>{
     	
     	}
     });
+
+app.controller("switchtofollow",($scope,$http)=>{
+	$scope.switch=false;
+	$http.get("/user/api/allpostbyfollowed").then(
+    (response) => {
+      $scope.postsoffollowed = response.data;
+      if(response.data.length==0)
+      {
+      $scope.showmessage=true;
+      console.log("no post");
+      }
+    },
+    (fail) => {
+      console.log("failed");
+    }
+  );
+});
 
 app.controller("searchcontroller", ($scope, $http) => {
   $scope.hidebar = true;

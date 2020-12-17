@@ -30,4 +30,7 @@ public interface Postrepo extends JpaRepository<Post, Integer>{
 	
 	@Query("select p from Post p where p.pid in :list")
 	public List<Post> FindByPidIn(@Param("list") List<Integer> l);
+	
+	@Query("select p from Post p where p.id in :list order by p.pid desc")
+	public List<Post> FindByIdIn(@Param("list") List<Integer> l);
 }
