@@ -17,7 +17,7 @@
 		  <div class="card-body">
 		    <p class="card-text mb-2">
 		    <form action="/sendlink" method="POST" th:object="${forgetpass}">
-		    <input type="text" name="email" class="form-control border border-primary" placeholder="Enter Email Here. like : 180101120056@cutm.ac.in" th:value="${forgetpass.email}">
+		    <input type="email" name="email" class="form-control border border-primary" placeholder="Enter Email Here. like : 180101120056@cutm.ac.in" th:value="${forgetpass.email}">
 		    </p>
 		    <button type="submit" class="btn btn-success">Send Reset Link 🔗</button>
 		    </form>

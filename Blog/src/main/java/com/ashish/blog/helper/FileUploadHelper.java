@@ -11,7 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class FileUploadHelper {
-	public final String UPLOAD_DIR= new ClassPathResource("static/img/").getFile().getAbsolutePath();
+	ClassPathResource UPLOAD_DIR= new ClassPathResource("static/img/");
+	//public final String UPLOAD_DIR= new ClassPathResource("/static/img/").getFile().getAbsolutePath();
 	
 	public FileUploadHelper() throws IOException
 	{
@@ -23,7 +24,7 @@ public class FileUploadHelper {
 		boolean status=false;
 		
 		try {
-			Files.copy(file.getInputStream(),Paths.get(UPLOAD_DIR+File.separator+nameOfFile), StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(file.getInputStream(),Paths.get(UPLOAD_DIR.getFile().getAbsolutePath()+File.separator+nameOfFile), StandardCopyOption.REPLACE_EXISTING);
 			status=true;
 			
 		} catch (Exception e) {
